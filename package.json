@@ -10,6 +10,7 @@
   "dependencies": {
     "@bugsnag/expo": "^7.2.1",
     "@react-native-community/async-storage": "^1.11.0",
+    "apisauce": "^1.1.1",
     "dayjs": "^1.8.31",
     "expo": "~38.0.8",
     "expo-location": "~8.2.1",
