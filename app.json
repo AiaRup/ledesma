@@ -1,30 +1,37 @@
 {
   "expo": {
-    "name": "LedesmaApp",
-    "slug": "LedesmaApp",
+    "name": "Ledesma",
+    "slug": "Ledesma",
+    "privacy": "unlisted",
+    "platforms": ["ios", "android", "web"],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./app/assets/icon.png",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "image": "./app/assets/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#e63c4b"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.aiarupsom.donewithit",
+      "buildNumber": "1.0.0"
     },
-    "web": {
-      "favicon": "./assets/favicon.png"
+    "android": {
+      "package": "com.aiarupsom.donewithit",
+      "versionCode": 1
+    },
+    "description": "An app to register farms data from the fields.",
+    "notification": {
+      "iosDisplayInForeground": true
     },
     "extra": {
       "bugsnag": {
-        "apiKey": "37d39c4cffe1ae184fa9a8e8102a8cde"
+        "apiKey": "c1713a2a60fb93f7fcea4d68862ef30e"
       }
     },
     "hooks": {
