@@ -13,41 +13,44 @@ import authApi from '../api/auth';
 import useAuth from '../auth/useAuth';
 
 const validationSchema = Yup.object().shape({
-  email: Yup.string().required().email().label('Email'),
-  password: Yup.string().required().min(4).label('Password'),
+  password: Yup.string().required().min(5).label('Password'),
+  employee: Yup.string().matches(/^\d+$/).required().label('Employee'),
 });
 
 export const LoginScreen = () => {
   const auth = useAuth();
-  const [loginFailed, setLoginFailded] = useState(false);
+  const [loginFailed, setLoginFailed] = useState(false);
 
-  const handleSubmit = async ({ email, password }) => {
-    const result = await authApi.login(email, password);
-    if (!result.ok) return setLoginFailded(true);
-    setLoginFailded(false);
+  const handleSubmit = async ({ password, employee }) => {
+    const result = await authApi.login({
+      password,
+      employeeCode: employee,
+    });
+    if (!result.ok) return setLoginFailed(true);
+    setLoginFailed(false);
     auth.logIn(result.data);
   };
 
   return (
     <Screen style={styles.container}>
-      <Image style={styles.logo} source={require('../assets/logo-red.png')} />
+      <Image style={styles.logo} source={require('../assets/logo-blue.png')} />
       <AppForm
-        initialValues={{ email: '', password: '' }}
+        initialValues={{ employee: '', password: '' }}
         onSubmit={handleSubmit}
         validationSchema={validationSchema}
       >
         <ErrorMessage
-          error='Invalid email and/or password'
+          error='Invalid employee and/or password'
           visible={loginFailed}
         />
         <AppFormField
           autoCapitalize='none'
           autoCorrect={false}
-          icon='email'
-          keyboardType='email-address'
-          name='email'
-          placeholder='Email'
-          textContentType='emailAddress'
+          icon='account-circle'
+          keyboardType='number-pad'
+          name='employee'
+          placeholder='Employee'
+          textContentType='none'
         />
         <AppFormField
           autoCapitalize='none'

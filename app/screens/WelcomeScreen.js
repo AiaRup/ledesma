@@ -3,6 +3,7 @@ import { StyleSheet, View, ImageBackground, Image, Text } from 'react-native';
 
 import { AppButton } from '../components';
 import routes from '../navigation/routes';
+import colors from '../config/colors';
 
 export const WelcomeScreen = ({ navigation }) => {
   return (
@@ -12,8 +13,11 @@ export const WelcomeScreen = ({ navigation }) => {
       source={require('../assets/background.jpg')}
     >
       <View style={styles.logoContainer}>
-        <Image style={styles.logo} source={require('../assets/logo-red.png')} />
-        <Text style={styles.tagline}>Sell What You Don't Need</Text>
+        <Image
+          style={styles.logo}
+          source={require('../assets/logo-blue.png')}
+        />
+        <Text style={styles.tagline}>Ledesma</Text>
       </View>
       <View style={styles.buttonsContainer}>
         <AppButton
@@ -53,5 +57,6 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: '600',
     paddingVertical: 20,
+    color: colors.primary,
   },
 });
