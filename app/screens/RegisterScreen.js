@@ -17,9 +17,9 @@ import useApi from '../hooks/useApi';
 import logger from '../utility/logger';
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required().label('Name'),
-  email: Yup.string().required().email().label('Email'),
-  password: Yup.string().required().min(4).label('Password'),
+  adminPassword: Yup.string().required().min(5).label('AdminPassword'),
+  password: Yup.string().required().min(5).label('Password'),
+  employee: Yup.string().matches(/^\d+$/).required().label('Employee'),
 });
 
 export const RegisterScreen = () => {
@@ -29,7 +29,10 @@ export const RegisterScreen = () => {
   const [error, setError] = useState();
 
   const handleSubmit = async (userInfo) => {
-    const result = await registerApi.request(userInfo);
+    const result = await registerApi.request({
+      ...userInfo,
+      employeeCode: userInfo.employee,
+    });
 
     if (!result.ok) {
       if (result.data) setError(result.data.error);
@@ -40,10 +43,10 @@ export const RegisterScreen = () => {
       return;
     }
 
-    const { data: authToken } = await loginApi.request(
-      userInfo.email,
-      userInfo.password
-    );
+    const { data: authToken } = await loginApi.request({
+      password: userInfo.password,
+      employeeCode: userInfo.employee,
+    });
     auth.logIn(authToken);
   };
 
@@ -52,25 +55,28 @@ export const RegisterScreen = () => {
       <ActivityIndicator visible={registerApi.loading || loginApi.loading} />
       <Screen style={styles.container}>
         <AppForm
-          initialValues={{ name: '', email: '', password: '' }}
+          initialValues={{ adminPassword: '', employee: '', password: '' }}
           onSubmit={handleSubmit}
           validationSchema={validationSchema}
         >
           <ErrorMessage error={error} visible={error} />
           <AppFormField
+            autoCapitalize='none'
             autoCorrect={false}
-            icon='account'
-            name='name'
-            placeholder='Name'
+            icon='account-circle'
+            keyboardType='number-pad'
+            name='employee'
+            placeholder='Employee'
+            textContentType='none'
           />
           <AppFormField
             autoCapitalize='none'
             autoCorrect={false}
-            icon='email'
-            keyboardType='email-address'
-            name='email'
-            placeholder='Email'
-            textContentType='emailAddress'
+            icon='lock-question'
+            secureTextEntry
+            name='adminPassword'
+            placeholder='Admin Password'
+            textContentType='password'
           />
           <AppFormField
             autoCapitalize='none'
