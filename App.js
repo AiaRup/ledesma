@@ -28,7 +28,11 @@ export default function App() {
 
   if (!isReady)
     return (
-      <AppLoading startAsync={restoreUser} onFinish={() => setIsReady(true)} />
+      <AppLoading
+        startAsync={restoreUser}
+        onFinish={() => setIsReady(true)}
+        onError={() => logger.log('Error on app loading')}
+      />
     );
 
   return (

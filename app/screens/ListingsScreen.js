@@ -14,17 +14,21 @@ import listingsApi from '../api/listings';
 import useApi from '../hooks/useApi';
 
 export const ListingsScreen = ({ navigation }) => {
-  const { data: listings, error, loading, request: loadListings } = useApi(
-    listingsApi.getListings
-  );
+  // const { data: listings, error, loading, request: loadListings } = useApi(
+  //   listingsApi.getListings
+  // );
 
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      loadListings();
-    });
+  // useEffect(() => {
+  //   const unsubscribe = navigation.addListener('focus', () => {
+  //     loadListings();
+  //   });
 
-    return unsubscribe;
-  }, [navigation]);
+  //   return unsubscribe;
+  // }, [navigation]);
+
+  const listings = [];
+  const loading = false;
+  const error = false;
 
   return (
     <>
@@ -38,7 +42,7 @@ export const ListingsScreen = ({ navigation }) => {
         )}
         <FlatList
           data={listings}
-          keyExtractor={(listing) => listing.id.toString()}
+          keyExtractor={(listing) => listing._id.toString()}
           renderItem={({ item }) => (
             <Card
               title={item.title}
