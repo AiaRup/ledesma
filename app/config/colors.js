@@ -6,6 +6,6 @@ export default {
   lightBlue: '#0d153a',
   medium: '#6e6969',
   primary: '#02062f',
-  secondary: '#6d3eaf',
+  secondary: '#2D82B7',
   white: '#fff',
-};
+}
