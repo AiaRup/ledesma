@@ -20,14 +20,19 @@ const validationSchema = Yup.object().shape({
 export const LoginScreen = () => {
   const auth = useAuth();
   const [loginFailed, setLoginFailed] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleSubmit = async ({ password, employee }) => {
     const result = await authApi.login({
       password,
       employeeCode: employee,
     });
-    if (!result.ok) return setLoginFailed(true);
+    if (!result.ok) {
+      setLoginFailed(true);
+      return setError(result.problem);
+    }
     setLoginFailed(false);
+    setError(null);
     auth.logIn(result.data);
   };
 
@@ -40,7 +45,7 @@ export const LoginScreen = () => {
         validationSchema={validationSchema}
       >
         <ErrorMessage
-          error='Invalid employee and/or password'
+          error={error || 'Invalid employee and/or password'}
           visible={loginFailed}
         />
         <AppFormField
