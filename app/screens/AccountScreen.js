@@ -14,15 +14,8 @@ const menuItems = [
       backgroundColor: colors.primary,
     },
   },
-  {
-    title: 'My Messages',
-    icon: {
-      name: 'email',
-      backgroundColor: colors.secondary,
-    },
-    targetScreen: routes.MESSAGES,
-  },
 ];
+
 export const AccountScreen = ({ navigation }) => {
   const { user, logOut } = useAuth();
 
