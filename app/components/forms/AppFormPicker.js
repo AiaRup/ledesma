@@ -22,10 +22,6 @@ export const AppFormPicker = ({
   useEffect(() => {
     if (dependedField) {
       setDependedValue(values && values[dependedField] && values[dependedField]._id)
-      console.log('values', values);
-      console.log('dependedField', dependedField);
-      console.log('dependedValue', dependedValue);
-      console.log('items', items);
     }
   }, [dependedField, values[dependedField]])
 

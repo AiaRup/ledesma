@@ -31,7 +31,6 @@ export const ListingEditScreen = () => {
   const [progress, setProgress] = useState(0);
   const [farms, setFarms] = useState([]);
   const [heads, setHeads] = useState([]);
-  const [operations, setOperations] = useState([]);
 
   const getFarmsList = async () => {
     const farmsResult = await farmsApi.getFarms();
@@ -41,7 +40,6 @@ export const ListingEditScreen = () => {
   const getHeadsList = async () => {
     const headsResult = await headsApi.getHeads();
     setHeads(headsResult?.data?.docs || []);
-    setOperations(headsResult?.data?.docs.map(head => head.operations) || [])
   }
 
   useEffect(() => {
@@ -101,17 +99,21 @@ export const ListingEditScreen = () => {
           dependedFunc={(dependedValue) => heads.filter(value => value.farm._id === dependedValue)}
         />
         <AppFormPicker
-          items={operations}
+          items={heads}
           name='operation'
-          numberOfColumns={3}
           placeholder='Operacion'
           icon='format-list-numbered'
+          dependedField='head'
+          dependedFunc={(dependedValue) => {
+            const head = heads.filter(value => value._id === dependedValue);
+            return head.length ? head[0].operations : [];
+          }}
         />
         <AppFormField
           maxLength={255}
           multiline
           name='flowmeter'
-          placeholder='Caudalimtro'
+          placeholder='Caudalimetro'
           icon='water-pump'
         />
         <AppFormField
@@ -126,7 +128,7 @@ export const ListingEditScreen = () => {
           name='pressureField'
           placeholder='Presion - Campo'
         />
-        <SubmitButton title='Post' />
+        <SubmitButton title='Enviar' />
       </AppForm>
     </Screen>
   );

@@ -24,7 +24,6 @@ export const AppPicker = ({
   placeholder,
   selectedItem,
   width = '100%',
-  dependedField
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -57,7 +56,7 @@ export const AppPicker = ({
           <Button title="Volver" onPress={() => setModalVisible(false)} style={styles.button} />
           <FlatList
             data={items}
-            keyExtractor={(item) => item.name.toString()}
+            keyExtractor={(item) => item.name}
             numColumns={numberOfColumns}
             renderItem={({ item }) => (
               <PickerItemComponent
