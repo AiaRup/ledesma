@@ -11,6 +11,7 @@ export const AppFormPicker = ({
   PickerItemComponent,
   placeholder,
   width,
+  icon
 }) => {
   const { errors, setFieldValue, touched, values } = useFormikContext();
 
@@ -24,6 +25,7 @@ export const AppFormPicker = ({
         placeholder={placeholder}
         selectedItem={values[name]}
         width={width}
+        icon={icon}
       />
       <ErrorMessage error={errors[name]} visible={touched[name]} />
     </>

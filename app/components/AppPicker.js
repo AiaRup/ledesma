@@ -39,9 +39,9 @@ export const AppPicker = ({
             />
           )}
           <AppText
-            style={selectedItem?.label ? styles.text : styles.placeholder}
+            style={selectedItem?.name ? styles.text : styles.placeholder}
           >
-            {selectedItem?.label || placeholder}
+            {selectedItem?.name || placeholder}
           </AppText>
           <MaterialCommunityIcons
             name="chevron-down"
@@ -52,19 +52,20 @@ export const AppPicker = ({
       </TouchableWithoutFeedback>
       <Modal visible={modalVisible} animationType="slide">
         <Screen>
-          <Button title="close" onPress={() => setModalVisible(false)} />
+          <Button title="Volver" onPress={() => setModalVisible(false)} style={styles.button} />
           <FlatList
             data={items}
-            keyExtractor={(item) => item.value.toString()}
+            keyExtractor={(item) => item.name.toString()}
             numColumns={numberOfColumns}
             renderItem={({ item }) => (
               <PickerItemComponent
                 item={item}
-                label={item.label}
+                label={item.name}
                 onPress={() => {
                   setModalVisible(false);
                   onSelectItem(item);
                 }}
+                selected={item.name === selectedItem?.name}
               />
             )}
           />
@@ -75,6 +76,9 @@ export const AppPicker = ({
 };
 
 const styles = StyleSheet.create({
+  button: {
+    marginVertical: 20
+  },
   container: {
     backgroundColor: defaultStyles.colors.light,
     borderRadius: 25,
@@ -84,6 +88,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginRight: 10,
+    marginTop: 3
   },
   placeholder: {
     flex: 1,

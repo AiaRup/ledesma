@@ -91,16 +91,12 @@ export const ListingEditScreen = () => {
         <AppFormPicker
           items={farms}
           name='farm'
-          numberOfColumns={3}
-          PickerItemComponent={CategoryPickerItem}
           placeholder='Quinta'
           value={selectedFarm}
         />
         <AppFormPicker
           items={heads}
           name='head'
-          numberOfColumns={3}
-          PickerItemComponent={CategoryPickerItem}
           placeholder='Filtrado'
           value={selectedHead}
           icon='filter'
@@ -109,7 +105,6 @@ export const ListingEditScreen = () => {
           items={heads}
           name='operation'
           numberOfColumns={3}
-          PickerItemComponent={CategoryPickerItem}
           placeholder='Operacion'
           icon='format-list-numbered'
         />
