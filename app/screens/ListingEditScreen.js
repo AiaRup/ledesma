@@ -31,8 +31,7 @@ export const ListingEditScreen = () => {
   const [progress, setProgress] = useState(0);
   const [farms, setFarms] = useState([]);
   const [heads, setHeads] = useState([]);
-  const [selectedFarm, setSelectedFarm] = useState(null);
-  const [selectedHead, setSelectedHead] = useState(null);
+  const [operations, setOperations] = useState([]);
 
   const getFarmsList = async () => {
     const farmsResult = await farmsApi.getFarms();
@@ -42,6 +41,7 @@ export const ListingEditScreen = () => {
   const getHeadsList = async () => {
     const headsResult = await headsApi.getHeads();
     setHeads(headsResult?.data?.docs || []);
+    setOperations(headsResult?.data?.docs.map(head => head.operations) || [])
   }
 
   useEffect(() => {
@@ -78,8 +78,8 @@ export const ListingEditScreen = () => {
       />
       <AppForm
         initialValues={{
-          farm: selectedFarm,
-          head: selectedHead,
+          farm: '',
+          head: '',
           operation: '',
           pressurePump: null,
           pressureField: null,
@@ -91,18 +91,17 @@ export const ListingEditScreen = () => {
           items={farms}
           name='farm'
           placeholder='Quinta'
-          value={selectedFarm}
         />
         <AppFormPicker
           items={heads}
           name='head'
           placeholder='Filtrado'
-          value={selectedHead}
           icon='filter'
           dependedField='farm'
+          dependedFunc={(dependedValue) => heads.filter(value => value.farm._id === dependedValue)}
         />
         <AppFormPicker
-          items={heads}
+          items={operations}
           name='operation'
           numberOfColumns={3}
           placeholder='Operacion'
