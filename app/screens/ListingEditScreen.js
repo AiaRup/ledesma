@@ -40,9 +40,8 @@ export const ListingEditScreen = () => {
   }
 
   const getHeadsList = async () => {
-    const headsResult = await headsApi.getFarms();
+    const headsResult = await headsApi.getHeads();
     setHeads(headsResult?.data?.docs || []);
-    console.log(headsResult?.data?.docs);
   }
 
   useEffect(() => {
@@ -51,7 +50,7 @@ export const ListingEditScreen = () => {
 
   useEffect(() => {
     getHeadsList();
-  }, [farms])
+  }, [])
 
   const handleSubmit = async (listing, { resetForm }) => {
     setProgress(0);
@@ -100,6 +99,7 @@ export const ListingEditScreen = () => {
           placeholder='Filtrado'
           value={selectedHead}
           icon='filter'
+          dependedField='farm'
         />
         <AppFormPicker
           items={heads}

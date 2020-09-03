@@ -8,6 +8,7 @@ import {
   Button,
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useFormikContext } from 'formik';
 
 import { AppText } from './AppText';
 import { PickerItem } from './PickerItem';
@@ -23,8 +24,18 @@ export const AppPicker = ({
   placeholder,
   selectedItem,
   width = '100%',
+  dependedField
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [dependedValue, setDependedValue] = useState(null);
+
+  if (dependedField) {
+    const {
+      values
+    } = useFormikContext();
+    setDependedValue(values[dependedField])
+  }
+
 
   return (
     <>
@@ -54,7 +65,7 @@ export const AppPicker = ({
         <Screen>
           <Button title="Volver" onPress={() => setModalVisible(false)} style={styles.button} />
           <FlatList
-            data={items}
+            data={dependedField ? items.filter(value => value[dependedField] ===dependedValue[_id]): items}
             keyExtractor={(item) => item.name.toString()}
             numColumns={numberOfColumns}
             renderItem={({ item }) => (
