@@ -103,6 +103,7 @@ export const ListingEditScreen = () => {
           PickerItemComponent={CategoryPickerItem}
           placeholder='Filtrado'
           value={selectedHead}
+          icon='filter'
         />
         <AppFormPicker
           items={heads}
@@ -110,12 +111,14 @@ export const ListingEditScreen = () => {
           numberOfColumns={3}
           PickerItemComponent={CategoryPickerItem}
           placeholder='Operacion'
+          icon='format-list-numbered'
         />
         <AppFormField
           maxLength={255}
           multiline
           name='flowmeter'
           placeholder='Caudalimtro'
+          icon='water-pump'
         />
         <AppFormField
           maxLength={255}
