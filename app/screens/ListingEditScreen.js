@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import * as Yup from 'yup';
 
@@ -12,78 +12,46 @@ import {
   FormImagePicker,
 } from '../components';
 import useLocation from '../hooks/useLocation';
-import listingsApi from '../api/listings';
+import farmsApi from '../api/farms';
+import headsApi from '../api/heads';
 import { UploadScreen } from './UploadScreen';
 
 const validationSchema = Yup.object().shape({
-  title: Yup.string().required().min(1).label('Title'),
-  price: Yup.number().required().min(1).max(10000).label('Price'),
-  description: Yup.string().label('Description'),
-  category: Yup.object().required().nullable().label('Category'),
-  images: Yup.array().min(1, 'Please select at least one image.'),
+  farm: Yup.string().required(),
+  head: Yup.string().required(),
+  operation: Yup.number().required().min(1).max(6),
+  flowmeter: Yup.number().required(),
+  pressurePump: Yup.number().required(),
+  pressureField: Yup.number().required(),
 });
-
-const categories = [
-  {
-    backgroundColor: '#fc5c65',
-    icon: 'floor-lamp',
-    label: 'Furniture',
-    value: 1,
-  },
-  {
-    backgroundColor: '#fd9644',
-    icon: 'car',
-    label: 'Cars',
-    value: 2,
-  },
-  {
-    backgroundColor: '#fed330',
-    icon: 'camera',
-    label: 'Cameras',
-    value: 3,
-  },
-  {
-    backgroundColor: '#26de81',
-    icon: 'cards',
-    label: 'Games',
-    value: 4,
-  },
-  {
-    backgroundColor: '#2bcbba',
-    icon: 'shoe-heel',
-    label: 'Clothing',
-    value: 5,
-  },
-  {
-    backgroundColor: '#45aaf2',
-    icon: 'basketball',
-    label: 'Sports',
-    value: 6,
-  },
-  {
-    backgroundColor: '#4b7bec',
-    icon: 'headphones',
-    label: 'Movies & Music',
-    value: 7,
-  },
-  {
-    backgroundColor: '#a55eea',
-    icon: 'book-open-variant',
-    label: 'Books',
-    value: 8,
-  },
-  {
-    backgroundColor: '#778ca3',
-    icon: 'application',
-    label: 'Other',
-    value: 9,
-  },
-];
 
 export const ListingEditScreen = () => {
   const location = useLocation();
   const [uploadVisible, setUploadVisible] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [farms, setFarms] = useState([]);
+  const [heads, setHeads] = useState([]);
+  const [selectedFarm, setSelectedFarm] = useState(null);
+  const [selectedHead, setSelectedHead] = useState(null);
+
+  const getFarmsList = async () => {
+    const farmsResult = await farmsApi.getFarms();
+    setFarms(farmsResult?.data?.docs || []);
+  }
+
+  const getHeadsList = async () => {
+    const headsResult = await headsApi.getFarms();
+    setHeads(headsResult?.data?.docs || []);
+    console.log(headsResult?.data?.docs);
+  }
+
+  useEffect(() => {
+    getFarmsList();
+  }, [])
+
+  useEffect(() => {
+    getHeadsList();
+  }, [farms])
 
   const handleSubmit = async (listing, { resetForm }) => {
     setProgress(0);
@@ -111,38 +79,55 @@ export const ListingEditScreen = () => {
       />
       <AppForm
         initialValues={{
-          title: '',
-          price: '',
-          description: '',
-          category: null,
-          images: [],
+          farm: selectedFarm,
+          head: selectedHead,
+          operation: '',
+          pressurePump: null,
+          pressureField: null,
         }}
         onSubmit={handleSubmit}
         validationSchema={validationSchema}
       >
-        <FormImagePicker name='images' />
-        <AppFormField maxLength={255} name='title' placeholder='Title' />
-        <AppFormField
-          keyboardType='numeric'
-          maxLength={8}
-          name='price'
-          placeholder='Price'
-          width={120}
-        />
         <AppFormPicker
-          items={categories}
-          name='category'
+          items={farms}
+          name='farm'
           numberOfColumns={3}
           PickerItemComponent={CategoryPickerItem}
-          placeholder='Category'
-          width='50%'
+          placeholder='Quinta'
+          value={selectedFarm}
+        />
+        <AppFormPicker
+          items={heads}
+          name='head'
+          numberOfColumns={3}
+          PickerItemComponent={CategoryPickerItem}
+          placeholder='Filtrado'
+          value={selectedHead}
+        />
+        <AppFormPicker
+          items={heads}
+          name='operation'
+          numberOfColumns={3}
+          PickerItemComponent={CategoryPickerItem}
+          placeholder='Operacion'
         />
         <AppFormField
           maxLength={255}
           multiline
-          name='description'
-          numberOfLines={3}
-          placeholder='Description'
+          name='flowmeter'
+          placeholder='Caudalimtro'
+        />
+        <AppFormField
+          maxLength={255}
+          multiline
+          name='pressurePump'
+          placeholder='Presion - Bomba'
+        />
+        <AppFormField
+          maxLength={255}
+          multiline
+          name='pressureField'
+          placeholder='Presion - Campo'
         />
         <SubmitButton title='Post' />
       </AppForm>
