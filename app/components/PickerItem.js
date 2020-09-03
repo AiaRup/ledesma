@@ -8,7 +8,7 @@ export const PickerItem = ({ item, onPress, selected }) => {
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={selected ? [styles.container, { backgroundColor: colors.light }] : styles.container}>
-        <AppText style={styles.text}>{item.name}</AppText>
+        <AppText style={styles.text}>{item.name.toString().toUpperCase()}</AppText>
       </View>
     </TouchableOpacity>
 

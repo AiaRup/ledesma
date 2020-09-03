@@ -42,7 +42,7 @@ export const AppPicker = ({
           <AppText
             style={selectedItem?.name ? styles.text : styles.placeholder}
           >
-            {selectedItem?.name || placeholder}
+            {selectedItem?.name.toString().toUpperCase() || placeholder}
           </AppText>
           <MaterialCommunityIcons
             name="chevron-down"
@@ -56,7 +56,7 @@ export const AppPicker = ({
           <Button title="Volver" onPress={() => setModalVisible(false)} style={styles.button} />
           <FlatList
             data={items}
-            keyExtractor={(item) => item.name}
+            keyExtractor={(item) => item.name.toString()}
             numColumns={numberOfColumns}
             renderItem={({ item }) => (
               <PickerItemComponent
