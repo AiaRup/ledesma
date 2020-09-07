@@ -135,6 +135,11 @@ export const ListingEditScreen = () => {
           multiline
           name='pressureField'
           placeholder='Presion - Campo'
+          validate={(value) => {
+            if (value < operation.field.min || value > operation.field.max) {
+              return `Value should be between ${operation.field.min} and ${operation.field.max}`
+            }
+          }}
         />
         <SubmitButton title='Enviar' />
       </AppForm>
