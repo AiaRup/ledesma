@@ -30,6 +30,7 @@ export const ListingEditScreen = () => {
   const [heads, setHeads] = useState([]);
   const [operation, setOperation] = useState({});
   const [selectedHead, setSelectedHead] = useState(null);
+  const [selectedFarm, setSelectedFarm] = useState(null);
 
 
   const getFarmsList = async () => {
@@ -92,6 +93,7 @@ export const ListingEditScreen = () => {
             name='farm'
             placeholder='Quinta'
             icon='tractor'
+            onChange={(value) => setSelectedFarm(value)}
           />
           <AppFormPicker
             items={heads}
@@ -101,6 +103,7 @@ export const ListingEditScreen = () => {
             dependedField='farm'
             onChange={(value) => setSelectedHead(value)}
             dependedFunc={(dependedValue) => heads.filter(value => value.farm._id === dependedValue)}
+            disabled={!selectedFarm}
           />
           <AppFormPicker
             items={heads}
