@@ -19,10 +19,10 @@ import { UploadScreen } from './UploadScreen';
 const validationSchema = Yup.object().shape({
   farm: Yup.string().required(),
   head: Yup.string().required(),
-  operation: Yup.number().required().min(1).max(6),
+  operation: Yup.number().min(1).max(6),
   flowmeter: Yup.number().required(),
-  pressurePump: Yup.number().required(),
-  pressureField: Yup.number().required(),
+  pressurePump: Yup.number(),
+  pressureField: Yup.number()
 });
 
 export const ListingEditScreen = () => {
