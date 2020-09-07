@@ -17,10 +17,9 @@ import headsApi from '../api/heads';
 import { UploadScreen } from './UploadScreen';
 
 const validationSchema = Yup.object().shape({
-  farm: Yup.string().required(),
-  head: Yup.string().required(),
-  operation: Yup.number().min(1).max(6),
-  flowmeter: Yup.number().required(),
+  farm: Yup.string().required('Campo Requerido.'),
+  head: Yup.string().required('Campo Requerido.'),
+  flowmeter: Yup.number().typeError('Caudalímetro tiene que ser un numero.').required('Campo Requerido.'),
   pressurePump: Yup.number(),
   pressureField: Yup.number()
 });
@@ -62,7 +61,7 @@ export const ListingEditScreen = () => {
 
     if (!result.ok) {
       setUploadVisible(false);
-      return alert('Could not save the listing.');
+      return alert('Error al guardar los datos.');
     }
 
     resetForm();
@@ -80,8 +79,9 @@ export const ListingEditScreen = () => {
           farm: '',
           head: '',
           operation: '',
-          pressurePump: null,
-          pressureField: null,
+          pressurePump: '',
+          pressureField: '',
+          flowmeter: ''
         }}
         onSubmit={handleSubmit}
         validationSchema={validationSchema}
@@ -103,7 +103,7 @@ export const ListingEditScreen = () => {
         <AppFormPicker
           items={heads}
           name='operation'
-          placeholder='Operacion'
+          placeholder='Operación'
           icon='format-list-numbered'
           dependedField='head'
           onChange={(value) => setOperation(value)}
@@ -116,17 +116,17 @@ export const ListingEditScreen = () => {
           maxLength={255}
           multiline
           name='flowmeter'
-          placeholder='Caudalimetro'
+          placeholder='Caudalímetro'
           icon='water-pump'
         />
         <AppFormField
           maxLength={255}
           multiline
           name='pressurePump'
-          placeholder='Presion - Bomba'
+          placeholder='Presión - Bomba'
           validate={(value) => {
             if (value < operation.pump.min || value > operation.pump.max) {
-              return `Value should be between ${operation.pump.min} and ${operation.pump.max}`
+              return `El valor debe estar entre ${operation.pump.min} y ${operation.pump.max}`
             }
           }}
         />
@@ -134,14 +134,14 @@ export const ListingEditScreen = () => {
           maxLength={255}
           multiline
           name='pressureField'
-          placeholder='Presion - Campo'
+          placeholder='Presión - Campo'
           validate={(value) => {
             if (value < operation.field.min || value > operation.field.max) {
-              return `Value should be between ${operation.field.min} and ${operation.field.max}`
+              return `El valor debe estar entre ${operation.field.min} y ${operation.field.max}`
             }
           }}
         />
-        <SubmitButton title='Enviar' />
+        <SubmitButton title='Enviar Datos' />
       </AppForm>
     </Screen>
   );
