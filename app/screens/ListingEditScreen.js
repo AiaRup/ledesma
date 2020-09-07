@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 import * as Yup from 'yup';
 
 import {
   AppForm,
   AppFormField,
   AppFormPicker,
-  CategoryPickerItem,
   SubmitButton,
   Screen,
-  FormImagePicker,
 } from '../components';
 import useLocation from '../hooks/useLocation';
 import farmsApi from '../api/farms';
@@ -31,6 +29,8 @@ export const ListingEditScreen = () => {
   const [farms, setFarms] = useState([]);
   const [heads, setHeads] = useState([]);
   const [operation, setOperation] = useState({});
+  const [selectedHead, setSelectedHead] = useState(null);
+
 
   const getFarmsList = async () => {
     const farmsResult = await farmsApi.getFarms();
@@ -69,80 +69,86 @@ export const ListingEditScreen = () => {
 
   return (
     <Screen style={styles.container}>
-      <UploadScreen
-        onDone={() => setUploadVisible(false)}
-        progress={progress}
-        visible={uploadVisible}
-      />
-      <AppForm
-        initialValues={{
-          farm: '',
-          head: '',
-          operation: '',
-          pressurePump: '',
-          pressureField: '',
-          flowmeter: ''
-        }}
-        onSubmit={handleSubmit}
-        validationSchema={validationSchema}
-      >
-        <AppFormPicker
-          items={farms}
-          name='farm'
-          placeholder='Quinta'
-          icon='tractor'
+      <ScrollView>
+        <UploadScreen
+          onDone={() => setUploadVisible(false)}
+          progress={progress}
+          visible={uploadVisible}
         />
-        <AppFormPicker
-          items={heads}
-          name='head'
-          placeholder='Filtrado'
-          icon='filter'
-          dependedField='farm'
-          dependedFunc={(dependedValue) => heads.filter(value => value.farm._id === dependedValue)}
-        />
-        <AppFormPicker
-          items={heads}
-          name='operation'
-          placeholder='Operación'
-          icon='format-list-numbered'
-          dependedField='head'
-          onChange={(value) => setOperation(value)}
-          dependedFunc={(dependedValue) => {
-            const head = heads.filter(value => value._id === dependedValue);
-            return head.length ? head[0].operations : [];
+        <AppForm
+          initialValues={{
+            farm: '',
+            head: '',
+            operation: '',
+            pressurePump: '',
+            pressureField: '',
+            flowmeter: ''
           }}
-        />
-        <AppFormField
-          maxLength={255}
-          multiline
-          name='flowmeter'
-          placeholder='Caudalímetro'
-          icon='water-pump'
-        />
-        <AppFormField
-          maxLength={255}
-          multiline
-          name='pressurePump'
-          placeholder='Presión - Bomba'
-          validate={(value) => {
-            if (value < operation.pump.min || value > operation.pump.max) {
-              return `El valor debe estar entre ${operation.pump.min} y ${operation.pump.max}`
-            }
-          }}
-        />
-        <AppFormField
-          maxLength={255}
-          multiline
-          name='pressureField'
-          placeholder='Presión - Campo'
-          validate={(value) => {
-            if (value < operation.field.min || value > operation.field.max) {
-              return `El valor debe estar entre ${operation.field.min} y ${operation.field.max}`
-            }
-          }}
-        />
-        <SubmitButton title='Enviar Datos' />
-      </AppForm>
+          onSubmit={handleSubmit}
+          validationSchema={validationSchema}
+        >
+          <AppFormPicker
+            items={farms}
+            name='farm'
+            placeholder='Quinta'
+            icon='tractor'
+          />
+          <AppFormPicker
+            items={heads}
+            name='head'
+            placeholder='Filtrado'
+            icon='filter'
+            dependedField='farm'
+            onChange={(value) => setSelectedHead(value)}
+            dependedFunc={(dependedValue) => heads.filter(value => value.farm._id === dependedValue)}
+          />
+          <AppFormPicker
+            items={heads}
+            name='operation'
+            placeholder='Operación'
+            icon='format-list-numbered'
+            dependedField='head'
+            onChange={(value) => setOperation(value)}
+            dependedFunc={(dependedValue) => {
+              const head = heads.filter(value => value._id === dependedValue);
+              return head.length ? head[0].operations : [];
+            }}
+          />
+          <AppFormField
+            maxLength={255}
+            multiline
+            name='flowmeter'
+            placeholder='Caudalímetro'
+            icon='water-pump'
+          />
+          <AppFormField
+            maxLength={255}
+            multiline
+            name='pressurePump'
+            placeholder='Presión - Bomba'
+            validate={(value) => {
+              if (value < operation.pump.min || value > operation.pump.max) {
+                return `El valor debe estar entre ${operation.pump.min} y ${operation.pump.max}`
+              }
+            }}
+            disabled={!!selectedHead}
+          />
+          <AppFormField
+            maxLength={255}
+            multiline
+            name='pressureField'
+            placeholder='Presión - Campo'
+            validate={(value) => {
+              if (value < operation.field.min || value > operation.field.max) {
+                return `El valor debe estar entre ${operation.field.min} y ${operation.field.max}`
+              }
+            }}
+            disabled={!!selectedHead}
+          />
+          <SubmitButton title='Enviar Datos' />
+        </AppForm>
+      </ScrollView>
+
     </Screen>
   );
 };

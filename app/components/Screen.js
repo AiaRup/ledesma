@@ -1,13 +1,11 @@
 import React from 'react';
-import { StyleSheet, SafeAreaView, View, ScrollView } from 'react-native';
+import { StyleSheet, SafeAreaView, View } from 'react-native';
 import Constants from 'expo-constants';
 
 export const Screen = ({ children, style }) => {
   return (
     <SafeAreaView style={[styles.screen, style]}>
-      <ScrollView>
         <View style={[styles.view, style]}>{children}</View>
-      </ScrollView>
     </SafeAreaView>
   );
 };

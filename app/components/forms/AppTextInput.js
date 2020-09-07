@@ -1,12 +1,11 @@
 import React from 'react';
 import { StyleSheet, View, TextInput } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Formik, Form, Field } from 'formik';
-
 
 import defaultStyles from '../../config/styles';
 
-export const AppTextInput = ({ icon, width = '100%', ...rest }) => {
+export const AppTextInput = ({ icon, width = '100%', disabled, ...rest }) => {
+
   return (
     <View style={[styles.container, { width }]}>
       {icon && (
@@ -20,6 +19,7 @@ export const AppTextInput = ({ icon, width = '100%', ...rest }) => {
       <TextInput
         placeholderTextColor={defaultStyles.colors.medium}
         style={defaultStyles.text}
+        editable={disabled}
         {...rest}
       />
     </View>
