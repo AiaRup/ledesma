@@ -28,8 +28,6 @@ export const AppPicker = ({
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
-  console.log('disabled', disabled);
-
   return (
     <>
       <TouchableWithoutFeedback onPress={() => !disabled && setModalVisible(!modalVisible)}>

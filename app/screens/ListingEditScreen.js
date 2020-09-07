@@ -31,6 +31,7 @@ export const ListingEditScreen = () => {
   const [operation, setOperation] = useState({});
   const [selectedHead, setSelectedHead] = useState(null);
   const [selectedFarm, setSelectedFarm] = useState(null);
+  const [loading, setLoading] = useState(false)
 
 
   const getFarmsList = async () => {
@@ -43,12 +44,11 @@ export const ListingEditScreen = () => {
     setHeads(headsResult?.data?.docs || []);
   }
 
-  useEffect(() => {
-    getFarmsList();
-  }, [])
-
-  useEffect(() => {
-    getHeadsList();
+  useEffect(async () => {
+    setLoading(true);
+    await getFarmsList();
+    await getHeadsList();
+    setLoading(false);
   }, [])
 
   const handleSubmit = async (listing, { resetForm }) => {
