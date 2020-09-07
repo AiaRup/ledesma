@@ -3,6 +3,7 @@ export default {
   danger: '#ff5252',
   dark: '#0c0c0c',
   light: '#f8f4f4',
+  inputLight: '#c6c3c3',
   lightBlue: '#0d153a',
   medium: '#6e6969',
   primary: '#02062f',

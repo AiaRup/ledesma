@@ -120,6 +120,7 @@ export const ListingEditScreen = () => {
             name='flowmeter'
             placeholder='Caudalímetro'
             icon='water-pump'
+            disabled={!!selectedHead}
           />
           <AppFormField
             maxLength={255}
