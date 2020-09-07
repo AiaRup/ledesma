@@ -42,7 +42,7 @@ export const AppPicker = ({
           <AppText
             style={selectedItem?.name ? styles.text : styles.placeholder}
           >
-            {selectedItem?.name.toString().toUpperCase() || placeholder}
+            {selectedItem?.name?.toString().toUpperCase() || placeholder}
           </AppText>
           <MaterialCommunityIcons
             name="chevron-down"

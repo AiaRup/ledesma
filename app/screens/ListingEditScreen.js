@@ -89,6 +89,7 @@ export const ListingEditScreen = () => {
           items={farms}
           name='farm'
           placeholder='Quinta'
+          icon='tractor'
         />
         <AppFormPicker
           items={heads}
