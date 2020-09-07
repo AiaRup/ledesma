@@ -56,7 +56,7 @@ export const AppPicker = ({
       </TouchableWithoutFeedback>
       <Modal visible={modalVisible} animationType="slide">
         <Screen>
-          <Button title="Volver" onPress={() => setModalVisible(false)} style={styles.button} />
+          <Button title="Volver" onPress={() => setModalVisible(false)} style={styles.button} color={colors.secondary} />
           <FlatList
             data={items}
             keyExtractor={(item) => item.name.toString()}
@@ -82,7 +82,6 @@ export const AppPicker = ({
 const styles = StyleSheet.create({
   button: {
     marginVertical: 20,
-    color: colors.primary
   },
   container: {
     backgroundColor: defaultStyles.colors.light,
