@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, View, TextInput } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Formik, Form, Field } from 'formik';
+
 
 import defaultStyles from '../../config/styles';
 

@@ -31,6 +31,7 @@ export const ListingEditScreen = () => {
   const [progress, setProgress] = useState(0);
   const [farms, setFarms] = useState([]);
   const [heads, setHeads] = useState([]);
+  const [operation, setOperation] = useState({});
 
   const getFarmsList = async () => {
     const farmsResult = await farmsApi.getFarms();
@@ -105,6 +106,7 @@ export const ListingEditScreen = () => {
           placeholder='Operacion'
           icon='format-list-numbered'
           dependedField='head'
+          onChange={(value) => setOperation(value)}
           dependedFunc={(dependedValue) => {
             const head = heads.filter(value => value._id === dependedValue);
             return head.length ? head[0].operations : [];
@@ -122,6 +124,11 @@ export const ListingEditScreen = () => {
           multiline
           name='pressurePump'
           placeholder='Presion - Bomba'
+          validate={(value) => {
+            if (value < operation.pump.min || value > operation.pump.max) {
+              return `Value should be between ${operation.pump.min} and ${operation.pump.max}`
+            }
+          }}
         />
         <AppFormField
           maxLength={255}

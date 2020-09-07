@@ -13,7 +13,8 @@ export const AppFormPicker = ({
   width,
   icon,
   dependedField,
-  dependedFunc
+  dependedFunc,
+  onChange
 }) => {
   const { errors, setFieldValue, touched, values } = useFormikContext();
   const [dependedValue, setDependedValue] = useState(null);
@@ -30,7 +31,10 @@ export const AppFormPicker = ({
       <AppPicker
         items={dependedField ? dependedFunc(dependedValue) : items}
         numberOfColumns={numberOfColumns}
-        onSelectItem={(item) => setFieldValue(name, item)}
+        onSelectItem={(item) => {
+          setFieldValue(name, item)
+          onChange && onChange(item)
+        }}
         PickerItemComponent={PickerItemComponent}
         placeholder={placeholder}
         selectedItem={values[name]}
