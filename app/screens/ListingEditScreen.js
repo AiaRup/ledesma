@@ -113,6 +113,7 @@ export const ListingEditScreen = () => {
               const head = heads.filter(value => value._id === dependedValue);
               return head.length ? head[0].operations : [];
             }}
+            disabled={!selectedHead}
           />
           <AppFormField
             maxLength={255}

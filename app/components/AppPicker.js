@@ -24,30 +24,33 @@ export const AppPicker = ({
   placeholder,
   selectedItem,
   width = '100%',
+  disabled = false
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
+  console.log('disabled', disabled);
+
   return (
     <>
-      <TouchableWithoutFeedback onPress={() => setModalVisible(!modalVisible)}>
+      <TouchableWithoutFeedback onPress={() => !disabled && setModalVisible(!modalVisible)}>
         <View style={[styles.container, { width }]}>
           {icon && (
             <MaterialCommunityIcons
               name={icon}
               size={20}
-              color={defaultStyles.colors.medium}
+              color={!disabled ? defaultStyles.colors.medium : defaultStyles.colors.inputLight}
               style={styles.icon}
             />
           )}
           <AppText
-            style={selectedItem?.name ? styles.text : styles.placeholder}
+            style={selectedItem?.name ? styles.text : (!disabled ? styles.placeholder : styles.placeholderDisabled)}
           >
             {selectedItem?.name?.toString().toUpperCase() || placeholder}
           </AppText>
           <MaterialCommunityIcons
             name="chevron-down"
             size={20}
-            color={defaultStyles.colors.medium}
+            color={!disabled ? defaultStyles.colors.medium : defaultStyles.colors.inputLight}
           />
         </View>
       </TouchableWithoutFeedback>
@@ -95,6 +98,10 @@ const styles = StyleSheet.create({
   placeholder: {
     flex: 1,
     color: defaultStyles.colors.medium,
+  },
+  placeholderDisabled: {
+    flex: 1,
+    color: defaultStyles.colors.inputLight,
   },
   text: {
     flex: 1,

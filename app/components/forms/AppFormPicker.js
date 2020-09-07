@@ -14,7 +14,8 @@ export const AppFormPicker = ({
   icon,
   dependedField,
   dependedFunc,
-  onChange
+  onChange,
+  disabled
 }) => {
   const { errors, setFieldValue, touched, values } = useFormikContext();
   const [dependedValue, setDependedValue] = useState(null);
@@ -41,6 +42,7 @@ export const AppFormPicker = ({
         width={width}
         icon={icon}
         dependedField={dependedField}
+        disabled={disabled}
       />
       <ErrorMessage error={errors[name]} visible={touched[name]} />
     </>
