@@ -17,9 +17,11 @@ import { UploadScreen } from './UploadScreen';
 const validationSchema = Yup.object().shape({
   farm: Yup.string().required('Campo Requerido.'),
   head: Yup.string().required('Campo Requerido.'),
-  flowmeter: Yup.number().typeError('Caudalímetro tiene que ser un numero.').required('Campo Requerido.'),
+  flowmeter: Yup.number()
+    .typeError('Caudalímetro tiene que ser un numero.')
+    .required('Campo Requerido.'),
   pressurePump: Yup.number(),
-  pressureField: Yup.number()
+  pressureField: Yup.number(),
 });
 
 export const ListingEditScreen = () => {
@@ -31,25 +33,27 @@ export const ListingEditScreen = () => {
   const [operation, setOperation] = useState({});
   const [selectedHead, setSelectedHead] = useState(null);
   const [selectedFarm, setSelectedFarm] = useState(null);
-  const [loading, setLoading] = useState(false)
-
+  const [loading, setLoading] = useState(false);
 
   const getFarmsList = async () => {
     const farmsResult = await farmsApi.getFarms();
     setFarms(farmsResult?.data?.docs || []);
-  }
+  };
 
   const getHeadsList = async () => {
     const headsResult = await headsApi.getHeads();
     setHeads(headsResult?.data?.docs || []);
-  }
+  };
 
-  useEffect(async () => {
-    setLoading(true);
-    await getFarmsList();
-    await getHeadsList();
-    setLoading(false);
-  }, [])
+  useEffect(() => {
+    async function getData() {
+      setLoading(true);
+      await getFarmsList();
+      await getHeadsList();
+      setLoading(false);
+    }
+    getData();
+  }, []);
 
   const handleSubmit = async (listing, { resetForm }) => {
     setProgress(0);
@@ -83,7 +87,7 @@ export const ListingEditScreen = () => {
             operation: '',
             pressurePump: '',
             pressureField: '',
-            flowmeter: ''
+            flowmeter: '',
           }}
           onSubmit={handleSubmit}
           validationSchema={validationSchema}
@@ -102,7 +106,9 @@ export const ListingEditScreen = () => {
             icon='filter'
             dependedField='farm'
             onChange={(value) => setSelectedHead(value)}
-            dependedFunc={(dependedValue) => heads.filter(value => value.farm._id === dependedValue)}
+            dependedFunc={(dependedValue) =>
+              heads.filter((value) => value.farm._id === dependedValue)
+            }
             disabled={!selectedFarm}
           />
           <AppFormPicker
@@ -113,7 +119,7 @@ export const ListingEditScreen = () => {
             dependedField='head'
             onChange={(value) => setOperation(value)}
             dependedFunc={(dependedValue) => {
-              const head = heads.filter(value => value._id === dependedValue);
+              const head = heads.filter((value) => value._id === dependedValue);
               return head.length ? head[0].operations : [];
             }}
             disabled={!selectedHead}
@@ -133,7 +139,7 @@ export const ListingEditScreen = () => {
             placeholder='Presión - Bomba'
             validate={(value) => {
               if (value < operation.pump.min || value > operation.pump.max) {
-                return `El valor debe estar entre ${operation.pump.min} y ${operation.pump.max}`
+                return `El valor debe estar entre ${operation.pump.min} y ${operation.pump.max}`;
               }
             }}
             disabled={!!selectedHead}
@@ -145,7 +151,7 @@ export const ListingEditScreen = () => {
             placeholder='Presión - Campo'
             validate={(value) => {
               if (value < operation.field.min || value > operation.field.max) {
-                return `El valor debe estar entre ${operation.field.min} y ${operation.field.max}`
+                return `El valor debe estar entre ${operation.field.min} y ${operation.field.max}`;
               }
             }}
             disabled={!!selectedHead}
@@ -153,7 +159,6 @@ export const ListingEditScreen = () => {
           <SubmitButton title='Enviar Datos' />
         </AppForm>
       </ScrollView>
-
     </Screen>
   );
 };

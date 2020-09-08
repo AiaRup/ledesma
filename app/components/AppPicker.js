@@ -8,6 +8,7 @@ import {
   Button,
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import LottieView from 'lottie-react-native';
 
 import { AppText } from './AppText';
 import { PickerItem } from './PickerItem';
@@ -24,53 +25,87 @@ export const AppPicker = ({
   placeholder,
   selectedItem,
   width = '100%',
-  disabled = false
+  disabled = false,
+  loading = false,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
     <>
-      <TouchableWithoutFeedback onPress={() => !disabled && setModalVisible(!modalVisible)}>
+      <TouchableWithoutFeedback
+        onPress={() => !disabled && setModalVisible(!modalVisible)}
+      >
         <View style={[styles.container, { width }]}>
           {icon && (
             <MaterialCommunityIcons
               name={icon}
               size={20}
-              color={!disabled ? defaultStyles.colors.medium : defaultStyles.colors.inputLight}
+              color={
+                !disabled
+                  ? defaultStyles.colors.medium
+                  : defaultStyles.colors.inputLight
+              }
               style={styles.icon}
             />
           )}
           <AppText
-            style={selectedItem?.name ? styles.text : (!disabled ? styles.placeholder : styles.placeholderDisabled)}
+            style={
+              selectedItem?.name
+                ? styles.text
+                : !disabled
+                ? styles.placeholder
+                : styles.placeholderDisabled
+            }
           >
             {selectedItem?.name?.toString().toUpperCase() || placeholder}
           </AppText>
           <MaterialCommunityIcons
-            name="chevron-down"
+            name='chevron-down'
             size={20}
-            color={!disabled ? defaultStyles.colors.medium : defaultStyles.colors.inputLight}
+            color={
+              !disabled
+                ? defaultStyles.colors.medium
+                : defaultStyles.colors.inputLight
+            }
           />
         </View>
       </TouchableWithoutFeedback>
-      <Modal visible={modalVisible} animationType="slide">
+      <Modal visible={modalVisible} animationType='slide'>
         <Screen>
-          <Button title="Volver" onPress={() => setModalVisible(false)} style={styles.button} color={colors.secondary} />
-          <FlatList
-            data={items}
-            keyExtractor={(item) => item.name.toString()}
-            numColumns={numberOfColumns}
-            renderItem={({ item }) => (
-              <PickerItemComponent
-                item={item}
-                label={item.name}
-                onPress={() => {
-                  setModalVisible(false);
-                  onSelectItem(item);
-                }}
-                selected={item.name === selectedItem?.name}
-              />
-            )}
+          <Button
+            title='Volver'
+            onPress={() => setModalVisible(false)}
+            style={styles.button}
+            color={colors.secondary}
           />
+          {loading && (
+            <View style={styles.animationWrapper}>
+              <LottieView
+                autoPlay
+                loop
+                source={require('../assets/animations/loading.json')}
+                style={styles.animation}
+              />
+            </View>
+          )}
+          {!loading && (
+            <FlatList
+              data={items}
+              keyExtractor={(item) => item.name.toString()}
+              numColumns={numberOfColumns}
+              renderItem={({ item }) => (
+                <PickerItemComponent
+                  item={item}
+                  label={item.name}
+                  onPress={() => {
+                    setModalVisible(false);
+                    onSelectItem(item);
+                  }}
+                  selected={item.name === selectedItem?.name}
+                />
+              )}
+            />
+          )}
         </Screen>
       </Modal>
     </>
@@ -78,6 +113,14 @@ export const AppPicker = ({
 };
 
 const styles = StyleSheet.create({
+  animation: {
+    width: 150,
+  },
+  animationWrapper: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    display: 'flex',
+  },
   button: {
     marginVertical: 20,
   },
@@ -90,7 +133,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginRight: 10,
-    marginTop: 3
+    marginTop: 3,
   },
   placeholder: {
     flex: 1,

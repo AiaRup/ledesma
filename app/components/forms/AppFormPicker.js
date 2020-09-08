@@ -15,17 +15,19 @@ export const AppFormPicker = ({
   dependedField,
   dependedFunc,
   onChange,
-  disabled
+  disabled,
+  loading,
 }) => {
   const { errors, setFieldValue, touched, values } = useFormikContext();
   const [dependedValue, setDependedValue] = useState(null);
 
-
   useEffect(() => {
     if (dependedField) {
-      setDependedValue(values && values[dependedField] && values[dependedField]._id)
+      setDependedValue(
+        values && values[dependedField] && values[dependedField]._id
+      );
     }
-  }, [dependedField, values[dependedField]])
+  }, [dependedField, values[dependedField]]);
 
   return (
     <>
@@ -33,8 +35,8 @@ export const AppFormPicker = ({
         items={dependedField ? dependedFunc(dependedValue) : items}
         numberOfColumns={numberOfColumns}
         onSelectItem={(item) => {
-          setFieldValue(name, item)
-          onChange && onChange(item)
+          setFieldValue(name, item);
+          onChange && onChange(item);
         }}
         PickerItemComponent={PickerItemComponent}
         placeholder={placeholder}
@@ -43,6 +45,7 @@ export const AppFormPicker = ({
         icon={icon}
         dependedField={dependedField}
         disabled={disabled}
+        loading={loading}
       />
       <ErrorMessage error={errors[name]} visible={touched[name]} />
     </>
