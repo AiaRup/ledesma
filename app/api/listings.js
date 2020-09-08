@@ -5,24 +5,18 @@ const endpoint = '/listings';
 const getListings = () => client.get(endpoint);
 
 const addListing = (
-  { title, price, category, description, images, location },
+  { head, operation, pressurePump, pressureField, flowmeter, location },
   onUploadProgress
 ) => {
-  const data = new FormData();
-  data.append('title', title);
-  data.append('price', price);
-  data.append('categoryId', category.value);
-  data.append('description', description);
+  const data = {
+    head: head._id,
+    operation: operation.name,
+    flowmeter,
+    pressurePump,
+    pressureField,
+    location: location,
+  };
 
-  images.forEach((image, index) =>
-    data.append('images', {
-      name: 'image' + index,
-      type: 'image/jpeg',
-      uri: image,
-    })
-  );
-
-  location && data.append('location', JSON.stringify(location));
   return client.post(endpoint, data, {
     onUploadProgress: (progress) =>
       onUploadProgress(progress.loaded / progress.total),

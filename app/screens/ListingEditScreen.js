@@ -12,7 +12,9 @@ import {
 import useLocation from '../hooks/useLocation';
 import farmsApi from '../api/farms';
 import headsApi from '../api/heads';
+import listingsApi from '../api/listings';
 import { UploadScreen } from './UploadScreen';
+import routes from '../navigation/routes';
 
 const validationSchema = Yup.object().shape({
   farm: Yup.string().required('Campo Requerido.'),
@@ -24,7 +26,7 @@ const validationSchema = Yup.object().shape({
   pressureField: Yup.number(),
 });
 
-export const ListingEditScreen = () => {
+export const ListingEditScreen = ({ navigation }) => {
   const location = useLocation();
   const [uploadVisible, setUploadVisible] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -55,10 +57,19 @@ export const ListingEditScreen = () => {
     getData();
   }, []);
 
+  const resetState = () => {
+    setLoading(false);
+    setSelectedHead(null);
+    setSelectedFarm(null);
+    setFarms([]);
+    setHeads([]);
+    setOperation({});
+  };
+
   const handleSubmit = async (listing, { resetForm }) => {
     setProgress(0);
     setUploadVisible(true);
-    3;
+
     const result = await listingsApi.addListing(
       { ...listing, location },
       (progress) => setProgress(progress)
@@ -69,7 +80,11 @@ export const ListingEditScreen = () => {
       return alert('Error al guardar los datos.');
     }
 
+    const active = !!listing.operation;
+    await headsApi.updateHeadStatus(selectedHead._id, { active });
     resetForm();
+    resetState();
+    navigation.navigate(routes.LISTING_DETAILS, result.data);
   };
 
   return (
@@ -98,6 +113,7 @@ export const ListingEditScreen = () => {
             placeholder='Quinta'
             icon='tractor'
             onChange={(value) => setSelectedFarm(value)}
+            loading={loading}
           />
           <AppFormPicker
             items={heads}
@@ -110,6 +126,7 @@ export const ListingEditScreen = () => {
               heads.filter((value) => value.farm._id === dependedValue)
             }
             disabled={!selectedFarm}
+            loading={loading}
           />
           <AppFormPicker
             items={heads}
