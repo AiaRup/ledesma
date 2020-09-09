@@ -49,8 +49,15 @@ export const ListingEditScreen = ({ navigation }) => {
   };
 
   const getLatestListing = async () => {
-    const listing = (await listingsApi.getLatestListing(headId)) || {};
-    listing && setLatestFlowmeter(listing.flowmeter);
+    const listing =
+      (await listingsApi.getLatestListing(selectedHead._id)) || {};
+    listing &&
+      listing.data &&
+      listing.data.docs.length &&
+      setLatestFlowmeter(listing.data.docs[0].flowmeter);
+    console.log('====================================');
+    console.log(listing);
+    console.log('====================================');
   };
 
   useEffect(() => {
@@ -70,7 +77,7 @@ export const ListingEditScreen = ({ navigation }) => {
       setLoading(false);
     }
     getData();
-  }, []);
+  }, [selectedHead]);
 
   const resetState = () => {
     setLoading(false);

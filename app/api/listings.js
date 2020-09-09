@@ -4,6 +4,8 @@ const endpoint = '/listings';
 
 const getListings = () => client.get(endpoint);
 
+const getLatestListing = (headId) => client.get(`${endpoint}?head=${headId}`);
+
 const addListing = (
   { head, operation, pressurePump, pressureField, flowmeter, location },
   onUploadProgress
@@ -25,5 +27,6 @@ const addListing = (
 
 export default {
   addListing,
+  getLatestListing,
   getListings,
 };
