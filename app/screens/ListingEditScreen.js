@@ -36,6 +36,7 @@ export const ListingEditScreen = ({ navigation }) => {
   const [selectedHead, setSelectedHead] = useState(null);
   const [selectedFarm, setSelectedFarm] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [latestFlowmeter, setLatestFlowmeter] = useState(null);
 
   const getFarmsList = async () => {
     const farmsResult = await farmsApi.getFarms();
@@ -47,11 +48,25 @@ export const ListingEditScreen = ({ navigation }) => {
     setHeads(headsResult?.data?.docs || []);
   };
 
+  const getLatestListing = async () => {
+    const listing = (await listingsApi.getLatestListing(headId)) || {};
+    listing && setLatestFlowmeter(listing.flowmeter);
+  };
+
   useEffect(() => {
     async function getData() {
       setLoading(true);
       await getFarmsList();
       await getHeadsList();
+      setLoading(false);
+    }
+    getData();
+  }, []);
+
+  useEffect(() => {
+    async function getData() {
+      setLoading(true);
+      await getLatestListing();
       setLoading(false);
     }
     getData();
