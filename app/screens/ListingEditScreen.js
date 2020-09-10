@@ -50,14 +50,13 @@ export const ListingEditScreen = ({ navigation }) => {
 
   const getLatestListing = async () => {
     const listing =
-      (await listingsApi.getLatestListing(selectedHead._id)) || {};
+      (selectedHead &&
+        (await listingsApi.getLatestListing(selectedHead._id))) ||
+      {};
     listing &&
       listing.data &&
       listing.data.docs.length &&
       setLatestFlowmeter(listing.data.docs[0].flowmeter);
-    console.log('====================================');
-    console.log(listing);
-    console.log('====================================');
   };
 
   useEffect(() => {
@@ -134,7 +133,11 @@ export const ListingEditScreen = ({ navigation }) => {
             name='farm'
             placeholder='Quinta'
             icon='tractor'
-            onChange={(value) => setSelectedFarm(value)}
+            onChange={(value) => {
+              setSelectedFarm(value);
+              setSelectedHead(null);
+              setOperation({});
+            }}
             loading={loading}
           />
           <AppFormPicker
@@ -169,12 +172,22 @@ export const ListingEditScreen = ({ navigation }) => {
             name='flowmeter'
             placeholder='Caudalímetro'
             icon='water-pump'
+            keyboardType='number-pad'
             disabled={!!selectedHead}
+            validate={(value) => {
+              if (!value || !latestFlowmeter) {
+                return;
+              }
+              if (latestFlowmeter && value <= latestFlowmeter) {
+                return `El valor debe estar mas grande del ultimo caudalímetro registrado:  ${latestFlowmeter}`;
+              }
+            }}
           />
           <AppFormField
             maxLength={255}
             multiline
             name='pressurePump'
+            keyboardType='number-pad'
             placeholder='Presión - Bomba'
             validate={(value) => {
               if (value < operation.pump.min || value > operation.pump.max) {
@@ -187,6 +200,7 @@ export const ListingEditScreen = ({ navigation }) => {
             maxLength={255}
             multiline
             name='pressureField'
+            keyboardType='number-pad'
             placeholder='Presión - Campo'
             validate={(value) => {
               if (value < operation.field.min || value > operation.field.max) {
