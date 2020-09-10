@@ -48,6 +48,13 @@ export const ListingEditScreen = ({ navigation }) => {
     setHeads(headsResult?.data?.docs || []);
   };
 
+  async function getData() {
+    setLoading(true);
+    await getFarmsList();
+    await getHeadsList();
+    setLoading(false);
+  }
+
   const getLatestListing = async () => {
     const listing =
       (selectedHead &&
@@ -60,14 +67,12 @@ export const ListingEditScreen = ({ navigation }) => {
   };
 
   useEffect(() => {
-    async function getData() {
-      setLoading(true);
-      await getFarmsList();
-      await getHeadsList();
-      setLoading(false);
-    }
-    getData();
-  }, []);
+    const unsubscribe = navigation.addListener('focus', () => {
+      getData();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   useEffect(() => {
     async function getData() {
