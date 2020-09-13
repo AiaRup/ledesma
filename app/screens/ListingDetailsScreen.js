@@ -10,6 +10,7 @@ export const ListingDetailsScreen = ({ route }) => {
   console.log('====================================');
   console.log('listing', listing);
   console.log('====================================');
+  const { head, operation, flowmeter, pressurePump, pressureField, createdBy, createdAt}
 
   return (
     <KeyboardAvoidingView
@@ -17,8 +18,14 @@ export const ListingDetailsScreen = ({ route }) => {
       keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 100}
     >
       <View style={styles.detailsContainer}>
-        <AppText style={styles.title}>{listing.title}</AppText>
-        <AppText style={styles.price}>{listing.price}</AppText>
+        {createdAt && <AppText style={styles.title}>{createdAt}</AppText>}
+        {createdBy && <AppText style={styles.title}>{createdBy}</AppText>}
+        <AppText style={styles.title}>{head.name}</AppText>
+        <AppText style={styles.title}>{head.name}</AppText>
+        <AppText style={styles.title}>{flowmeter}</AppText>
+        {pressurePump && <AppText style={styles.title}>{pressurePump}</AppText>}
+        {pressureField && <AppText style={styles.title}>{pressureField}</AppText>}
+        {operation && <AppText style={styles.price}>{operation}</AppText>}
         <View style={styles.userContainer}>
           <ListItem
             image={require('../assets/mosh.jpg')}
