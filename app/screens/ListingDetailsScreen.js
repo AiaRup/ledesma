@@ -25,12 +25,11 @@ export const ListingDetailsScreen = ({ route }) => {
         <AppText style={styles.title}>{flowmeter}</AppText>
         {pressurePump && <AppText style={styles.title}>{pressurePump}</AppText>}
         {pressureField && <AppText style={styles.title}>{pressureField}</AppText>}
-        {operation && <AppText style={styles.price}>{operation}</AppText>}
+        {operation && <AppText style={styles.subTitle}>{operation}</AppText>}
         <View style={styles.userContainer}>
           <ListItem
-            image={require('../assets/mosh.jpg')}
-            title='Mosh Hamedani'
-            subTitle='5 Listings'
+            image={createdBy.image}
+            title={createdBy.name}
           />
         </View>
       </View>
@@ -42,7 +41,7 @@ const styles = StyleSheet.create({
   detailsContainer: {
     padding: 20,
   },
-  price: {
+  subTitle: {
     color: colors.secondary,
     fontWeight: 'bold',
     fontSize: 20,
