@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, KeyboardAvoidingView, Platform } from 'react-native';
+import dayjs from 'dayjs';
 
 import { ListItem, AppText } from '../components';
 import colors from '../config/colors';
@@ -10,7 +11,15 @@ export const ListingDetailsScreen = ({ route }) => {
   console.log('====================================');
   console.log('listing', listing);
   console.log('====================================');
-  const { head, operation, flowmeter, pressurePump, pressureField, createdBy, createdAt}
+  const {
+    head = {},
+    operation,
+    flowmeter,
+    pressurePump,
+    pressureField,
+    createdBy = {},
+    createdAt,
+  } = listing;
 
   return (
     <KeyboardAvoidingView
@@ -18,18 +27,24 @@ export const ListingDetailsScreen = ({ route }) => {
       keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 100}
     >
       <View style={styles.detailsContainer}>
-        {createdAt && <AppText style={styles.title}>{createdAt}</AppText>}
+        {createdAt && (
+          <AppText style={styles.title}>
+            {dayjs(createdAt).format('DD/MM/YYYY HH:mm')}
+          </AppText>
+        )}
         {createdBy && <AppText style={styles.title}>{createdBy}</AppText>}
         <AppText style={styles.title}>{head.name}</AppText>
         <AppText style={styles.title}>{head.name}</AppText>
         <AppText style={styles.title}>{flowmeter}</AppText>
         {pressurePump && <AppText style={styles.title}>{pressurePump}</AppText>}
-        {pressureField && <AppText style={styles.title}>{pressureField}</AppText>}
+        {pressureField && (
+          <AppText style={styles.title}>{pressureField}</AppText>
+        )}
         {operation && <AppText style={styles.subTitle}>{operation}</AppText>}
         <View style={styles.userContainer}>
           <ListItem
             image={createdBy.image}
-            title={createdBy.name}
+            title={createdBy.name || 'Not provided'}
           />
         </View>
       </View>

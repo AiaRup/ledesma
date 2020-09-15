@@ -36,7 +36,7 @@ export const ListItem = ({
           </View>
           {showChevrons && (
             <MaterialCommunityIcons
-              name="chevron-right"
+              name='chevron-right'
               size={25}
               color={colors.medium}
             />
