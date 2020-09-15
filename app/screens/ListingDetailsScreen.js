@@ -20,7 +20,7 @@ export const ListingDetailsScreen = ({ route }) => {
 
   return (
     <Screen style={styles.detailsContainer}>
-      <>
+      <View style={styles.listing}>
         {createdAt && (
           <AppText style={styles.title}>
             {dayjs(createdAt).format('DD/MM/YYYY HH:mm')}
@@ -34,14 +34,14 @@ export const ListingDetailsScreen = ({ route }) => {
           <AppText style={styles.title}>{pressureField}</AppText>
         )}
         {operation && <AppText style={styles.subTitle}>{operation}</AppText>}
-      </>
-      <View style={styles.userContainer}>
-        {createdBy && (
-          <ListItem
-            image={createdBy.image}
-            title={createdBy.name || 'Not provided'}
-          />
-        )}
+        <View style={styles.userContainer}>
+          {createdBy && (
+            <ListItem
+              image={createdBy.image}
+              title={createdBy.name || 'Not provided'}
+            />
+          )}
+        </View>
       </View>
     </Screen>
   );
@@ -49,6 +49,11 @@ export const ListingDetailsScreen = ({ route }) => {
 
 const styles = StyleSheet.create({
   detailsContainer: {
+    padding: 20,
+    backgroundColor: colors.light,
+  },
+  listing: {
+    backgroundColor: colors.white,
     padding: 20,
   },
   subTitle: {
