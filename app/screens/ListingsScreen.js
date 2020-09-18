@@ -14,6 +14,10 @@ import routes from '../navigation/routes';
 import listingsApi from '../api/listings';
 import farmsApi from '../api/farms';
 import headsApi from '../api/heads';
+const validationSchema = Yup.object().shape({
+  farm: Yup.string().required('Campo Requerido.'),
+  head: Yup.string().required('Campo Requerido.'),
+});
 
 export const ListingsScreen = ({ navigation }) => {
   // const { data: listings, error, loading, request: loadListings } = useApi(
@@ -178,10 +182,6 @@ export const ListingsScreen = ({ navigation }) => {
         initialValues={{
           farm: '',
           head: '',
-          operation: '',
-          pressurePump: '',
-          pressureField: '',
-          flowmeter: '',
         }}
         onSubmit={handleSubmit}
         validationSchema={validationSchema}
@@ -211,7 +211,7 @@ export const ListingsScreen = ({ navigation }) => {
           disabled={!selectedFarm}
           loading={loading}
         />
-        <SubmitButton title='Enviar Datos' />
+        <SubmitButton title='Buscar' />
       </AppForm>
     </Screen>
   );
@@ -223,144 +223,3 @@ const styles = StyleSheet.create({
     backgroundColor: colors.light,
   },
 });
-
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, ScrollView } from 'react-native';
-import * as Yup from 'yup';
-
-import {
-  AppForm,
-  AppFormField,
-  AppFormPicker,
-  SubmitButton,
-  Screen,
-} from '../components';
-import useLocation from '../hooks/useLocation';
-import farmsApi from '../api/farms';
-import headsApi from '../api/heads';
-import listingsApi from '../api/listings';
-import { UploadScreen } from './UploadScreen';
-import routes from '../navigation/routes';
-
-const validationSchema = Yup.object().shape({
-  farm: Yup.string().required('Campo Requerido.'),
-  head: Yup.string().required('Campo Requerido.'),
-  flowmeter: Yup.number()
-    .typeError('Caudalímetro tiene que ser un numero.')
-    .required('Campo Requerido.'),
-  pressurePump: Yup.number(),
-  pressureField: Yup.number(),
-});
-
-export const ListingEditScreen = ({ navigation }) => {
-  const location = useLocation();
-  const [uploadVisible, setUploadVisible] = useState(false);
-  const [progress, setProgress] = useState(0);
-
-  return (
-    <Screen style={styles.container}>
-      <ScrollView>
-        <UploadScreen
-          onDone={() => setUploadVisible(false)}
-          progress={progress}
-          visible={uploadVisible}
-        />
-        <AppForm
-          initialValues={{
-            farm: '',
-            head: '',
-            operation: '',
-            pressurePump: '',
-            pressureField: '',
-            flowmeter: '',
-          }}
-          onSubmit={handleSubmit}
-          validationSchema={validationSchema}
-        >
-          <AppFormPicker
-            items={farms}
-            name='farm'
-            placeholder='Quinta'
-            icon='tractor'
-            onChange={(value) => {
-              setSelectedFarm(value);
-              setSelectedHead(null);
-              setOperation({});
-            }}
-            loading={loading}
-          />
-          <AppFormPicker
-            items={heads}
-            name='head'
-            placeholder='Filtrado'
-            icon='filter'
-            dependedField='farm'
-            onChange={(value) => setSelectedHead(value)}
-            dependedFunc={(dependedValue) =>
-              heads.filter((value) => value.farm._id === dependedValue)
-            }
-            disabled={!selectedFarm}
-            loading={loading}
-          />
-          <AppFormPicker
-            items={heads}
-            name='operation'
-            placeholder='Operación'
-            icon='format-list-numbered'
-            dependedField='head'
-            onChange={(value) => setOperation(value)}
-            dependedFunc={(dependedValue) => {
-              const head = heads.filter((value) => value._id === dependedValue);
-              return head.length ? head[0].operations : [];
-            }}
-            disabled={!selectedHead}
-          />
-          <AppFormField
-            maxLength={255}
-            multiline
-            name='flowmeter'
-            placeholder='Caudalímetro'
-            icon='water-pump'
-            keyboardType='number-pad'
-            disabled={!!selectedHead}
-            validate={(value) => {
-              if (!value || !latestFlowmeter) {
-                return;
-              }
-              if (latestFlowmeter && value <= latestFlowmeter) {
-                return `El valor debe estar mas grande del ultimo caudalímetro registrado:  ${latestFlowmeter}`;
-              }
-            }}
-          />
-          <AppFormField
-            maxLength={255}
-            multiline
-            name='pressurePump'
-            keyboardType='number-pad'
-            placeholder='Presión - Bomba'
-            validate={(value) => {
-              if (value < operation.pump.min || value > operation.pump.max) {
-                return `El valor debe estar entre ${operation.pump.min} y ${operation.pump.max}`;
-              }
-            }}
-            disabled={!!selectedHead}
-          />
-          <AppFormField
-            maxLength={255}
-            multiline
-            name='pressureField'
-            keyboardType='number-pad'
-            placeholder='Presión - Campo'
-            validate={(value) => {
-              if (value < operation.field.min || value > operation.field.max) {
-                return `El valor debe estar entre ${operation.field.min} y ${operation.field.max}`;
-              }
-            }}
-            disabled={!!selectedHead}
-          />
-          <SubmitButton title='Enviar Datos' />
-        </AppForm>
-      </ScrollView>
-    </Screen>
-  );
-};
