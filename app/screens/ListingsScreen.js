@@ -103,17 +103,6 @@ export const ListingsScreen = ({ navigation }) => {
     setLoading(false);
   }
 
-  const getLatestListing = async () => {
-    const listing =
-      (selectedHead &&
-        (await listingsApi.getLatestListing(selectedHead._id))) ||
-      {};
-    listing &&
-      listing.data &&
-      listing.data.docs.length &&
-      setLatestFlowmeter(listing.data.docs[0].flowmeter);
-  };
-
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       getData();
@@ -121,15 +110,6 @@ export const ListingsScreen = ({ navigation }) => {
 
     return unsubscribe;
   }, [navigation]);
-
-  useEffect(() => {
-    async function getData() {
-      setLoading(true);
-      await getLatestListing();
-      setLoading(false);
-    }
-    getData();
-  }, [selectedHead]);
 
   const resetState = () => {
     setLoading(false);
@@ -139,22 +119,19 @@ export const ListingsScreen = ({ navigation }) => {
     setHeads([]);
   };
 
-  const handleSubmit = async (listing, { resetForm }) => {
+  const handleSubmit = async (search, { resetForm }) => {
     setProgress(0);
     setUploadVisible(true);
 
-    const result = await listingsApi.addListing(
-      { ...listing, location },
-      (progress) => setProgress(progress)
+    const result = await listingsApi.searchListing(search, (progress) =>
+      setProgress(progress)
     );
 
     if (!result.ok) {
       setUploadVisible(false);
-      return alert('Error al guardar los datos.');
+      return alert('Error al buscar un listing.');
     }
 
-    const active = !!listing.operation;
-    await headsApi.updateHeadStatus(selectedHead._id, { active });
     resetForm();
     resetState();
     navigation.navigate(routes.LISTING_DETAILS, result.data);
