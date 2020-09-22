@@ -2,7 +2,7 @@ import client from './client';
 
 const endpoint = '/listings';
 
-const getListings = () => client.get(endpoint);
+const getListings = (search = '') => client.get(`${endpoint}${search}`);
 
 const getLatestListing = (headId) => client.get(`${endpoint}?head=${headId}`);
 

@@ -119,11 +119,12 @@ export const ListingsScreen = ({ navigation }) => {
     setHeads([]);
   };
 
-  const handleSubmit = async (search, { resetForm }) => {
+  const handleSubmit = async (parameters, { resetForm }) => {
     setProgress(0);
     setUploadVisible(true);
 
-    const result = await listingsApi.searchListing(search, (progress) =>
+    const searchParams = `?head=${parameters.head}&updatedAt=${parameters.date}`;
+    const result = await listingsApi.getListings(searchParams, (progress) =>
       setProgress(progress)
     );
 
