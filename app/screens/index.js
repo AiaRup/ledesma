@@ -7,3 +7,4 @@ export { ViewImageScreen } from './ViewImageScreen';
 export { WelcomeScreen } from './WelcomeScreen';
 export { RegisterScreen } from './RegisterScreen';
 export { ListingEditScreen } from './ListingEditScreen';
+export { SearchScreen } from './SearchScreen';
