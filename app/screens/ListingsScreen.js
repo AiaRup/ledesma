@@ -15,8 +15,6 @@ export const ListingsScreen = ({ navigation, listings }) => {
             head={item.head?._id}
             operation={item.operation?.name}
             flowmeter={item.flowmeter}
-            pressurePump={item.pressurePump}
-            pressureField={item.pressureField}
             onPress={() => navigation.navigate(routes.LISTING_DETAILS, item)}
           />
         )}
