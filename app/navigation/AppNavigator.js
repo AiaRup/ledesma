@@ -17,11 +17,15 @@ export default AppNavigator = () => {
   return (
     <Tab.Navigator>
       <Tab.Screen
-        name={routes.FEED}
+        name={routes.SEARCH}
         component={FeedNavigator}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name='home' color={color} size={size} />
+            <MaterialCommunityIcons
+              name='table-search'
+              color={color}
+              size={size}
+            />
           ),
         }}
       />

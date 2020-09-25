@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, FlatList, View, Button } from 'react-native';
+import { StyleSheet, View, Button } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import * as Yup from 'yup';
 
 import { Screen } from '../components';
 import colors from '../config/colors';
@@ -8,6 +9,7 @@ import routes from '../navigation/routes';
 import listingsApi from '../api/listings';
 import farmsApi from '../api/farms';
 import headsApi from '../api/heads';
+
 const validationSchema = Yup.object().shape({
   farm: Yup.string().required('Campo Requerido.'),
   head: Yup.string().required('Campo Requerido.'),

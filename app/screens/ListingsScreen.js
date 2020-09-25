@@ -1,8 +1,9 @@
 import React from 'react';
-import { FlatList } from 'react-native';
+import { StyleSheet, FlatList } from 'react-native';
 
 import { Card, Screen } from '../components';
 import routes from '../navigation/routes';
+import colors from '../config/colors';
 
 export const ListingsScreen = ({ navigation, listings }) => {
   return (
@@ -22,3 +23,10 @@ export const ListingsScreen = ({ navigation, listings }) => {
     </Screen>
   );
 };
+
+const styles = StyleSheet.create({
+  screen: {
+    padding: 20,
+    backgroundColor: colors.light,
+  },
+});
