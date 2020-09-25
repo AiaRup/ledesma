@@ -12,11 +12,12 @@ export const ListingsScreen = ({ navigation, listings }) => {
         keyExtractor={(listing) => listing._id.toString()}
         renderItem={({ item }) => (
           <Card
-            title={item.title}
-            subTitle={`$${item.price}`}
-            imageUrl={item.images[0].url}
+            head={item.head?._id}
+            operation={item.operation?.name}
+            flowmeter={item.flowmeter}
+            pressurePump={item.pressurePump}
+            pressureField={item.pressureField}
             onPress={() => navigation.navigate(routes.LISTING_DETAILS, item)}
-            thumbnailUrl={item.images[0].thumbnailUrl}
           />
         )}
       />
