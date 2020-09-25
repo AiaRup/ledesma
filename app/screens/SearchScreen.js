@@ -3,7 +3,7 @@ import { StyleSheet, View, Button } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as Yup from 'yup';
 
-import { Screen } from '../components';
+import { Screen, SubmitButton, AppForm, AppFormPicker } from '../components';
 import colors from '../config/colors';
 import routes from '../navigation/routes';
 import listingsApi from '../api/listings';
@@ -122,11 +122,9 @@ export const SearchScreen = ({ navigation }) => {
           items={farms}
           name='farm'
           placeholder='Quinta'
-          icon='tractor'
           onChange={(value) => {
             setSelectedFarm(value);
             setSelectedHead(null);
-            setOperation({});
           }}
           loading={loading}
         />
@@ -134,7 +132,6 @@ export const SearchScreen = ({ navigation }) => {
           items={heads}
           name='head'
           placeholder='Filtrado'
-          icon='filter'
           dependedField='farm'
           onChange={(value) => setSelectedHead(value)}
           dependedFunc={(dependedValue) =>
