@@ -6,9 +6,9 @@ import { ErrorMessage } from './ErrorMessage';
 
 export const FormDatePicker = ({
   name,
-  numberOfColumns = 1,
   width,
   icon,
+  placeholder,
   disabled,
 }) => {
   const { errors, setFieldValue, touched, values } = useFormikContext();
@@ -17,10 +17,9 @@ export const FormDatePicker = ({
     <>
       <AppDatePicker
         date={values[name]}
-        numberOfColumns={numberOfColumns}
+        name={name}
         onSelectItem={(d) => {
           setFieldValue(name, d);
-          onChange && onChange(d);
         }}
         placeholder={placeholder}
         width={width}

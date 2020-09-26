@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Button } from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import * as Yup from 'yup';
 
-import { Screen, SubmitButton, AppForm, AppFormPicker } from '../components';
+import {
+  Screen,
+  SubmitButton,
+  AppForm,
+  AppFormPicker,
+  FormDatePicker,
+} from '../components';
 import colors from '../config/colors';
 import routes from '../navigation/routes';
 import listingsApi from '../api/listings';
@@ -13,32 +18,15 @@ import headsApi from '../api/heads';
 const validationSchema = Yup.object().shape({
   farm: Yup.string().required('Campo Requerido.'),
   head: Yup.string().required('Campo Requerido.'),
+  date: Yup.string().required('Campo Requerido.'),
 });
 
 export const SearchScreen = ({ navigation }) => {
-  const [date, setDate] = useState(new Date());
-  const [mode, setMode] = useState('date');
-  const [show, setShow] = useState(false);
   const [farms, setFarms] = useState([]);
   const [heads, setHeads] = useState([]);
   const [selectedHead, setSelectedHead] = useState(null);
   const [selectedFarm, setSelectedFarm] = useState(null);
   const [loading, setLoading] = useState(false);
-
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShow(Platform.OS === 'ios');
-    setDate(currentDate);
-  };
-
-  const showMode = (currentMode) => {
-    setShow(true);
-    setMode(currentMode);
-  };
-
-  const showDatepicker = () => {
-    showMode('date');
-  };
 
   const getFarmsList = async () => {
     const farmsResult = await farmsApi.getFarms();
@@ -94,30 +82,16 @@ export const SearchScreen = ({ navigation }) => {
 
   return (
     <Screen style={styles.screen}>
-      <View>
-        <View>
-          <Button onPress={showDatepicker} title='Show date picker!' />
-        </View>
-        {show && (
-          <DateTimePicker
-            testID='dateTimePicker'
-            value={date}
-            mode={mode}
-            is24Hour={true}
-            display='calendar'
-            onChange={onChange}
-            maximumDate={new Date()}
-          />
-        )}
-      </View>
       <AppForm
         initialValues={{
           farm: '',
           head: '',
+          date: '',
         }}
         onSubmit={handleSubmit}
         validationSchema={validationSchema}
       >
+        <FormDatePicker name='date' placeholder='Fecha' />
         <AppFormPicker
           items={farms}
           name='farm'
