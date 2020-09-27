@@ -1,8 +1,10 @@
 import React from 'react';
 import { useFormikContext } from 'formik';
+const dayjs = require('dayjs');
 
 import { AppDatePicker } from '../AppDatePicker';
 import { ErrorMessage } from './ErrorMessage';
+import { Dayjs } from 'dayjs';
 
 export const FormDatePicker = ({
   name,
@@ -19,7 +21,8 @@ export const FormDatePicker = ({
         date={values[name]}
         name={name}
         onSelectItem={(d) => {
-          setFieldValue(name, d);
+          const date = dayjs(d).format('DD/MM/YYYY');
+          setFieldValue(name, date);
         }}
         placeholder={placeholder}
         width={width}
