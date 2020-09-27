@@ -2,6 +2,7 @@ export { ActivityIndicator } from './ActivityIndicator';
 export { AppButton } from './AppButton';
 export { AppForm } from './forms/AppForm';
 export { AppFormField } from './forms/AppFormField';
+export { AppFormPicker } from './forms/AppFormPicker';
 export { AppDatePicker } from './AppDatePicker';
 export { AppPicker } from './AppPicker';
 export { AppText } from './AppText';
