@@ -10,9 +10,11 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 import { AppText } from './AppText';
+import { AppButton } from './AppButton';
 import { Screen } from './Screen';
 import defaultStyles from '../config/styles';
 import colors from '../config/colors';
+import dayjs from 'dayjs';
 
 export const AppDatePicker = ({
   icon,
@@ -23,7 +25,9 @@ export const AppDatePicker = ({
   disabled = false,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [dateSelected, setDateSelected] = useState(date || new Date());
+  const [dateSelected, setDateSelected] = useState(
+    date ? dayjs(date) : new Date()
+  );
 
   const onChange = (event, selectedDate) => {
     setDateSelected(selectedDate);
@@ -62,7 +66,7 @@ export const AppDatePicker = ({
         </View>
       </TouchableWithoutFeedback>
       <Modal visible={modalVisible} animationType='slide'>
-        <Screen>
+        <Screen style={styles.screen}>
           <Button
             title='Volver'
             onPress={() => setModalVisible(false)}
@@ -77,14 +81,12 @@ export const AppDatePicker = ({
             onChange={onChange}
             maximumDate={new Date()}
           />
-          <Button
+          <AppButton
             title='Selecionar Fecha'
             onPress={() => {
               setModalVisible(false);
               onSelectItem(dateSelected);
             }}
-            style={styles.button}
-            color={colors.secondary}
           />
         </Screen>
       </Modal>
@@ -113,5 +115,8 @@ const styles = StyleSheet.create({
   },
   text: {
     flex: 1,
+  },
+  screen: {
+    paddingHorizontal: 35,
   },
 });

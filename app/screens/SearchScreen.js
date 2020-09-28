@@ -91,7 +91,6 @@ export const SearchScreen = ({ navigation }) => {
         onSubmit={handleSubmit}
         validationSchema={validationSchema}
       >
-        <FormDatePicker name='date' placeholder='Fecha' />
         <AppFormPicker
           items={farms}
           name='farm'
@@ -114,6 +113,7 @@ export const SearchScreen = ({ navigation }) => {
           disabled={!selectedFarm}
           loading={loading}
         />
+        <FormDatePicker name='date' placeholder='Fecha' />
         <SubmitButton title='Buscar' />
       </AppForm>
     </Screen>
@@ -123,6 +123,6 @@ export const SearchScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   screen: {
     padding: 20,
-    backgroundColor: colors.light,
+    backgroundColor: colors.white,
   },
 });

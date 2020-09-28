@@ -4,7 +4,6 @@ const dayjs = require('dayjs');
 
 import { AppDatePicker } from '../AppDatePicker';
 import { ErrorMessage } from './ErrorMessage';
-import { Dayjs } from 'dayjs';
 
 export const FormDatePicker = ({
   name,
