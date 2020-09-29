@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Button } from 'react-native';
+import { StyleSheet } from 'react-native';
 import * as Yup from 'yup';
+const dayjs = require('dayjs');
 
 import {
   Screen,
@@ -9,6 +10,7 @@ import {
   AppFormPicker,
   FormDatePicker,
 } from '../components';
+import { UploadScreen } from './UploadScreen';
 import colors from '../config/colors';
 import routes from '../navigation/routes';
 import listingsApi from '../api/listings';
@@ -22,9 +24,11 @@ const validationSchema = Yup.object().shape({
 });
 
 export const SearchScreen = ({ navigation }) => {
+  const [uploadVisible, setUploadVisible] = useState(false);
+  const [progress, setProgress] = useState(0);
   const [farms, setFarms] = useState([]);
   const [heads, setHeads] = useState([]);
-  const [selectedHead, setSelectedHead] = useState(null);
+  const [, setSelectedHead] = useState(null);
   const [selectedFarm, setSelectedFarm] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -65,23 +69,34 @@ export const SearchScreen = ({ navigation }) => {
     setProgress(0);
     setUploadVisible(true);
 
-    const searchParams = `?head=${parameters.head}&updatedAt=${parameters.date}`;
+    console.log(parameters.date);
+
+    const searchParams = `?head=${parameters.head._id}&updatedAt=${dayjs(
+      parameters.date
+    ).startOf('day')}`;
+
     const result = await listingsApi.getListings(searchParams, (progress) =>
       setProgress(progress)
     );
 
+    setProgress(0);
+    setUploadVisible(false);
     if (!result.ok) {
-      setUploadVisible(false);
       return alert('Error al buscar un listing.');
     }
 
     resetForm();
     resetState();
-    navigation.navigate(routes.LISTING, result.data);
+    navigation.navigate(routes.LISTING, result.data?.docs);
   };
 
   return (
     <Screen style={styles.screen}>
+      <UploadScreen
+        onDone={() => setUploadVisible(false)}
+        progress={progress}
+        visible={uploadVisible}
+      />
       <AppForm
         initialValues={{
           farm: '',
