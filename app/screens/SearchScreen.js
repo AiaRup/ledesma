@@ -69,11 +69,7 @@ export const SearchScreen = ({ navigation }) => {
     setProgress(0);
     setUploadVisible(true);
 
-    console.log(parameters.date);
-
-    const searchParams = `?head=${parameters.head._id}&updatedAt=${dayjs(
-      parameters.date
-    ).startOf('day')}`;
+    const searchParams = `?head=${parameters.head._id}&updatedAt=${parameters.date}`;
 
     const result = await listingsApi.getListings(searchParams, (progress) =>
       setProgress(progress)

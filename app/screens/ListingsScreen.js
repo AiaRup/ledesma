@@ -5,7 +5,9 @@ import { Card, Screen } from '../components';
 import routes from '../navigation/routes';
 import colors from '../config/colors';
 
-export const ListingsScreen = ({ navigation, listings }) => {
+export const ListingsScreen = ({ navigation, route }) => {
+  const listings = route.params;
+
   return (
     <Screen style={styles.screen}>
       <FlatList
