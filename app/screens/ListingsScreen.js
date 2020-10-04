@@ -15,7 +15,7 @@ export const ListingsScreen = ({ navigation, route }) => {
         keyExtractor={(listing) => listing._id.toString()}
         renderItem={({ item }) => (
           <Card
-            head={item.head?._id}
+            head={item.head?.name}
             operation={item.operation?.name}
             flowmeter={item.flowmeter}
             onPress={() => navigation.navigate(routes.LISTING_DETAILS, item)}

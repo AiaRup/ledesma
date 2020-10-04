@@ -15,25 +15,26 @@ export const ListingDetailsScreen = ({ route }) => {
     pressurePump,
     pressureField,
     createdBy,
-    createdAt,
+    updatedAt,
   } = listing;
 
   return (
     <Screen style={styles.detailsContainer}>
       <View style={styles.listing}>
-        {createdAt && (
+        {updatedAt && (
           <AppText style={styles.title}>
-            {dayjs(createdAt).format('DD/MM/YYYY HH:mm')}
+            {dayjs(updatedAt).format('DD/MM/YYYY HH:mm')}
           </AppText>
         )}
-        <AppText style={styles.title}>{head.name}</AppText>
-        <AppText style={styles.title}>{head.name}</AppText>
+        <AppText style={styles.title}>{head?.name}</AppText>
+        {operation && (
+          <AppText style={styles.subTitle}>operacion: {operation}</AppText>
+        )}
         <AppText style={styles.title}>{flowmeter}</AppText>
         {pressurePump && <AppText style={styles.title}>{pressurePump}</AppText>}
         {pressureField && (
           <AppText style={styles.title}>{pressureField}</AppText>
         )}
-        {operation && <AppText style={styles.subTitle}>{operation}</AppText>}
         <View style={styles.userContainer}>
           {createdBy && (
             <ListItem
