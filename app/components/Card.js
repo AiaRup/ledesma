@@ -11,13 +11,13 @@ export const Card = ({ head, operation, flowmeter, onPress }) => {
       <View style={styles.card}>
         <View style={styles.detailsContainer}>
           <AppText style={styles.title} numberOfLines={1}>
-            {head}
+            Filtrado: {head}
           </AppText>
           <AppText style={styles.title} numberOfLines={1}>
-            {operation}
+            Operación: {operation || 'Sin Operación'}
           </AppText>
           <AppText style={styles.subTitle} numberOfLines={2}>
-            {flowmeter}
+            Caudalímetro: {flowmeter}
           </AppText>
         </View>
       </View>
