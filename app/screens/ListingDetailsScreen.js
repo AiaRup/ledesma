@@ -22,24 +22,32 @@ export const ListingDetailsScreen = ({ route }) => {
     <Screen style={styles.detailsContainer}>
       <View style={styles.listing}>
         {updatedAt && (
-          <AppText style={styles.title}>
+          <AppText style={styles.date}>
             {dayjs(updatedAt).format('DD/MM/YYYY HH:mm')}
           </AppText>
         )}
-        <AppText style={styles.title}>{head?.name}</AppText>
+        <AppText style={styles.title}>Filtrado: {head?.name}</AppText>
         {operation && (
-          <AppText style={styles.subTitle}>operacion: {operation}</AppText>
+          <AppText style={styles.subTitle}>Operación: {operation}</AppText>
         )}
-        <AppText style={styles.title}>{flowmeter}</AppText>
-        {pressurePump && <AppText style={styles.title}>{pressurePump}</AppText>}
+        <AppText style={styles.title}>Caudalímetro: {flowmeter}</AppText>
+        {pressurePump && (
+          <AppText style={styles.title}>
+            Presión - Bomba: {pressurePump}
+          </AppText>
+        )}
         {pressureField && (
-          <AppText style={styles.title}>{pressureField}</AppText>
+          <AppText style={styles.title}>
+            Presión - Campo: {pressureField}
+          </AppText>
         )}
         <View style={styles.userContainer}>
           {createdBy && (
             <ListItem
               image={createdBy.image}
-              title={createdBy.name || 'Not provided'}
+              title={
+                createdBy.name ? `Operdaor: ${createdBy.name}` : 'Not provided'
+              }
             />
           )}
         </View>
@@ -66,6 +74,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: '500',
+  },
+  date: {
+    fontSize: 24,
+    fontWeight: '500',
+    textAlign: 'right',
   },
   userContainer: {
     marginVertical: 40,
