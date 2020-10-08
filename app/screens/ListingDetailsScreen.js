@@ -28,9 +28,9 @@ export const ListingDetailsScreen = ({ route }) => {
         )}
         <AppText style={styles.title}>Filtrado: {head?.name}</AppText>
         {operation && (
-          <AppText style={styles.subTitle}>Operación: {operation}</AppText>
+          <AppText style={styles.title}>Operación: {operation}</AppText>
         )}
-        <AppText style={styles.title}>Caudalímetro: {flowmeter}</AppText>
+        <AppText style={styles.subTitle}>Caudalímetro: {flowmeter}</AppText>
         {pressurePump && (
           <AppText style={styles.title}>
             Presión - Bomba: {pressurePump}
@@ -64,9 +64,10 @@ const styles = StyleSheet.create({
   listing: {
     backgroundColor: colors.white,
     padding: 20,
+    borderRadius: '8px',
   },
   subTitle: {
-    color: colors.secondary,
+    color: colors.black,
     fontWeight: 'bold',
     fontSize: 20,
     marginVertical: 10,
