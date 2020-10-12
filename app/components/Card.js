@@ -16,9 +16,13 @@ export const Card = ({ head, operation, flowmeter, onPress }) => {
           <AppText style={styles.title} numberOfLines={1}>
             Operación: {operation || 'Sin Operación'}
           </AppText>
-          <AppText style={styles.subTitle} numberOfLines={2}>
-            Caudalímetro: {flowmeter}
-          </AppText>
+          <View style={styles.textContainer}>
+            <AppText style={styles.title}>
+              Caudalímetro:{' '}
+              <AppText style={styles.subTitle}>{flowmeter} m</AppText>
+            </AppText>
+            <AppText style={styles.upperText}>3</AppText>
+          </View>
         </View>
       </View>
     </TouchableWithoutFeedback>
@@ -40,10 +44,17 @@ const styles = StyleSheet.create({
     height: 200,
   },
   subTitle: {
-    color: colors.secondary,
     fontWeight: 'bold',
   },
   title: {
     marginBottom: 7,
+  },
+  upperText: {
+    fontSize: 11,
+    lineHeight: 18,
+  },
+  textContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
   },
 });
