@@ -27,30 +27,46 @@ export const ListingDetailsScreen = ({ route }) => {
           </AppText>
         )}
         <AppText style={styles.title}>Filtrado: {head?.name}</AppText>
-        {operation && (
-          <AppText style={styles.title}>Operación: {operation}</AppText>
-        )}
-        <AppText style={styles.subTitle}>Caudalímetro: {flowmeter}</AppText>
-        {pressurePump && (
+        <AppText style={styles.title}>
+          Operación: {operation || 'Sin Operación'}
+        </AppText>
+        <View style={styles.textContainer}>
           <AppText style={styles.title}>
-            Presión - Bomba: {pressurePump}
+            Caudalímetro:{' '}
+            <AppText style={styles.subTitle}>{flowmeter} m</AppText>
           </AppText>
-        )}
-        {pressureField && (
+          <AppText style={styles.upperText}>3</AppText>
+        </View>
+        <View style={styles.textContainer}>
           <AppText style={styles.title}>
-            Presión - Campo: {pressureField}
+            Presión - Bomba:{' '}
+            <AppText style={styles.subTitle}>
+              {pressurePump || 'Sin Presión'}
+            </AppText>
+            {pressurePump && <AppText style={styles.subTitle}>kg/cm</AppText>}
+            {pressurePump && <AppText style={styles.upperText}>2</AppText>}
           </AppText>
-        )}
-        <View style={styles.userContainer}>
-          {createdBy && (
+        </View>
+        <View style={styles.textContainer}>
+          <AppText style={styles.title}>
+            Presión - Campo:{' '}
+            <AppText style={styles.subTitle}>
+              {pressureField || 'Sin Presión'}
+            </AppText>
+            {pressurePump && <AppText style={styles.subTitle}>kg/cm</AppText>}
+            {pressurePump && <AppText style={styles.upperText}>2</AppText>}
+          </AppText>
+        </View>
+        {createdBy && (
+          <View style={styles.userContainer}>
             <ListItem
               image={createdBy.image}
               title={
                 createdBy.name ? `Operdaor: ${createdBy.name}` : 'Not provided'
               }
             />
-          )}
-        </View>
+          </View>
+        )}
       </View>
     </Screen>
   );
@@ -66,22 +82,29 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 8,
   },
-  subTitle: {
-    color: colors.black,
-    fontWeight: 'bold',
-    fontSize: 20,
-    marginVertical: 10,
-  },
   title: {
-    fontSize: 24,
-    fontWeight: '500',
+    fontSize: 20,
+    marginVertical: 5,
+  },
+  subTitle: {
+    fontWeight: 'bold',
   },
   date: {
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: '500',
     textAlign: 'right',
+    color: colors.medium,
+    marginBottom: 8,
   },
   userContainer: {
     marginVertical: 40,
+  },
+  upperText: {
+    fontSize: 11,
+    lineHeight: 18,
+  },
+  textContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
   },
 });
