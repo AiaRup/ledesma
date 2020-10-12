@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   listing: {
     backgroundColor: colors.white,
     padding: 20,
-    borderRadius: '8px',
+    borderRadius: 8,
   },
   subTitle: {
     color: colors.black,
