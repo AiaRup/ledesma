@@ -17,7 +17,7 @@ export const ListingsScreen = ({ navigation, route }) => {
           renderItem={({ item }) => (
             <Card
               head={item.head?.name}
-              operation={item.operation?.name}
+              operation={item.operation}
               flowmeter={item.flowmeter}
               onPress={() => navigation.navigate(routes.LISTING_DETAILS, item)}
             />
