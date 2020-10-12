@@ -26,9 +26,14 @@ export const ListingDetailsScreen = ({ route }) => {
             {dayjs(updatedAt).format('DD/MM/YYYY HH:mm')}
           </AppText>
         )}
-        <AppText style={styles.title}>Filtrado: {head?.name}</AppText>
         <AppText style={styles.title}>
-          Operación: {operation || 'Sin Operación'}
+          Filtrado: <AppText style={styles.subTitle}>{head?.name}</AppText>
+        </AppText>
+        <AppText style={styles.title}>
+          Operación:{' '}
+          <AppText style={styles.subTitle}>
+            {operation || 'Sin Operación'}
+          </AppText>
         </AppText>
         <View style={styles.textContainer}>
           <AppText style={styles.title}>
