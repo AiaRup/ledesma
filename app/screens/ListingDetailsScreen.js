@@ -46,21 +46,19 @@ export const ListingDetailsScreen = ({ route }) => {
           <AppText style={styles.title}>
             Presión - Bomba:{' '}
             <AppText style={styles.subTitle}>
-              {pressurePump || 'Sin Presión'}
+              {pressurePump ? `${pressurePump} kg/cm` : 'Sin Presión'}
             </AppText>
-            {pressurePump && <AppText style={styles.subTitle}>kg/cm</AppText>}
-            {pressurePump && <AppText style={styles.upperText}>2</AppText>}
           </AppText>
+          {pressurePump && <AppText style={styles.upperText}>2</AppText>}
         </View>
         <View style={styles.textContainer}>
           <AppText style={styles.title}>
             Presión - Campo:{' '}
             <AppText style={styles.subTitle}>
-              {pressureField || 'Sin Presión'}
+              {pressureField ? `${pressureField} kg/cm` : 'Sin Presión'}
             </AppText>
-            {pressurePump && <AppText style={styles.subTitle}>kg/cm</AppText>}
-            {pressurePump && <AppText style={styles.upperText}>2</AppText>}
           </AppText>
+          {pressureField && <AppText style={styles.upperText}>2</AppText>}
         </View>
         {createdBy && (
           <View style={styles.userContainer}>
@@ -102,14 +100,15 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   userContainer: {
-    marginVertical: 40,
+    marginVertical: 8,
+  },
+  textContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'flex-start',
   },
   upperText: {
     fontSize: 11,
     lineHeight: 18,
-  },
-  textContainer: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
   },
 });
