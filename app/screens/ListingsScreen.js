@@ -10,24 +10,23 @@ export const ListingsScreen = ({ navigation, route }) => {
 
   return (
     <Screen style={styles.screen}>
-      {listings.length ? (
-        <FlatList
-          data={listings}
-          keyExtractor={(listing) => listing._id.toString()}
-          renderItem={({ item }) => (
-            <Card
-              head={item.head?.name}
-              operation={item.operation}
-              flowmeter={item.flowmeter}
-              onPress={() => navigation.navigate(routes.LISTING_DETAILS, item)}
-            />
-          )}
-        />
-      ) : (
-        <AppText style={styles.noResult} numberOfLines={1}>
-          No hay resultados para tu búsqueda.
-        </AppText>
-      )}
+      <FlatList
+        data={listings}
+        keyExtractor={(listing) => listing._id.toString()}
+        renderItem={({ item }) => (
+          <Card
+            head={item.head?.name}
+            operation={item.operation}
+            flowmeter={item.flowmeter}
+            onPress={() => navigation.navigate(routes.LISTING_DETAILS, item)}
+          />
+        )}
+        ListEmptyComponent={() => (
+          <AppText style={styles.noResult} numberOfLines={1}>
+            No hay resultados para tu búsqueda.
+          </AppText>
+        )}
+      />
     </Screen>
   );
 };
