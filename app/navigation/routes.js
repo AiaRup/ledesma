@@ -8,5 +8,5 @@ export default Object.freeze({
   LOGIN: 'Iniciar sesión',
   MESSAGES: 'Mensajes',
   REGISTER: 'Registrarse',
-  WELCOME: 'Welcome',
+  WELCOME: 'Bienvenido',
 });

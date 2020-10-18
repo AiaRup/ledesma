@@ -66,7 +66,7 @@ export const RegisterScreen = () => {
             icon='account-circle'
             keyboardType='number-pad'
             name='employee'
-            placeholder='Employee'
+            placeholder='Legajo'
             textContentType='none'
           />
           <AppFormField
@@ -75,7 +75,7 @@ export const RegisterScreen = () => {
             icon='lock-question'
             secureTextEntry
             name='adminPassword'
-            placeholder='Admin Password'
+            placeholder='Admin Seña'
             textContentType='password'
           />
           <AppFormField
@@ -83,7 +83,7 @@ export const RegisterScreen = () => {
             autoCorrect={false}
             icon='lock'
             name='password'
-            placeholder='Password'
+            placeholder='Contraseña'
             secureTextEntry
             textContentType='password'
           />

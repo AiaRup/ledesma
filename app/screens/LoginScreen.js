@@ -54,7 +54,7 @@ export const LoginScreen = () => {
           icon='account-circle'
           keyboardType='number-pad'
           name='employee'
-          placeholder='Employee'
+          placeholder='Legajo'
           textContentType='none'
         />
         <AppFormField
@@ -62,7 +62,7 @@ export const LoginScreen = () => {
           autoCorrect={false}
           icon='lock'
           name='password'
-          placeholder='Password'
+          placeholder='Contraseña'
           secureTextEntry
           textContentType='password'
         />

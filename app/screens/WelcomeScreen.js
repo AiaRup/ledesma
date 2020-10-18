@@ -21,11 +21,11 @@ export const WelcomeScreen = ({ navigation }) => {
       </View>
       <View style={styles.buttonsContainer}>
         <AppButton
-          title='Login'
+          title='Iniciar sesión'
           onPress={() => navigation.navigate(routes.LOGIN)}
         />
         <AppButton
-          title='Register'
+          title='Registrar'
           color='secondary'
           onPress={() => navigation.navigate(routes.REGISTER)}
         />
