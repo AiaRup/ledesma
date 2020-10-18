@@ -12,12 +12,12 @@ export const AppTextInput = ({ icon, width = '100%', disabled, ...rest }) => {
         <MaterialCommunityIcons
           name={icon}
           size={20}
-          color={disabled ? defaultStyles.colors.medium : defaultStyles.colors.inputLight}
+          color={disabled ? defaultStyles.colors.inputLight : defaultStyles.colors.medium}
           style={styles.icon}
         />
       )}
       <TextInput
-        placeholderTextColor={disabled ? defaultStyles.colors.medium : defaultStyles.colors.inputLight}
+        placeholderTextColor={disabled ? defaultStyles.colors.inputLight : defaultStyles.colors.medium}
         style={defaultStyles.text}
         editable={disabled}
         {...rest}
