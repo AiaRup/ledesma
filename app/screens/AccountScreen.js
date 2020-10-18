@@ -8,7 +8,7 @@ import useAuth from '../auth/useAuth';
 
 const menuItems = [
   {
-    title: 'My Listings',
+    title: 'Mis Registros',
     icon: {
       name: 'format-list-bulleted',
       backgroundColor: colors.primary,
@@ -32,7 +32,7 @@ export const AccountScreen = ({ navigation }) => {
       <View style={styles.container}>
         <FlatList
           data={menuItems}
-          keyExtractor={(manuItem) => manuItem.title}
+          keyExtractor={(menuItem) => menuItem.title}
           ItemSeparatorComponent={ListItemSeperator}
           renderItem={({ item }) => (
             <ListItem
@@ -49,7 +49,7 @@ export const AccountScreen = ({ navigation }) => {
         ></FlatList>
       </View>
       <ListItem
-        title='Log Out'
+        title='Salir'
         IconComponent={<Icon name='logout' backgroundColor='#ffe66d' />}
         onPress={() => logOut()}
       />
