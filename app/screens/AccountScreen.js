@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View, FlatList } from 'react-native';
 
 import { ListItem, Screen, Icon, ListItemSeperator } from '../components';
+import { UploadScreen } from './UploadScreen';
 import colors from '../config/colors';
 import routes from '../navigation/routes';
 import useAuth from '../auth/useAuth';
+import listingsApi from '../api/listings';
 
 const menuItems = [
   {
@@ -18,9 +20,34 @@ const menuItems = [
 
 export const AccountScreen = ({ navigation }) => {
   const { user, logOut } = useAuth();
+  const [uploadVisible, setUploadVisible] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  const onMyListingsSearch = async () => {
+    setProgress(0);
+    setUploadVisible(true);
+
+    const searchParams = `?createdBy=${user._id}`;
+
+    const result = await listingsApi.getListings(searchParams, (progress) =>
+      setProgress(progress)
+    );
+
+    setUploadVisible(false);
+    if (!result.ok) {
+      return alert('Error al buscar mis registors.');
+    }
+
+    navigation.navigate(routes.LISTING, result.data?.docs);
+  };
 
   return (
     <Screen style={styles.screen}>
+      <UploadScreen
+        onDone={() => setUploadVisible(false)}
+        progress={progress}
+        visible={uploadVisible}
+      />
       <View style={styles.container}>
         <ListItem
           title={user.name}
@@ -43,7 +70,7 @@ export const AccountScreen = ({ navigation }) => {
                   backgroundColor={item.icon.backgroundColor}
                 />
               }
-              onPress={() => navigation.navigate(item.targetScreen)}
+              onPress={onMyListingsSearch}
             />
           )}
         ></FlatList>
