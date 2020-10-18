@@ -9,6 +9,5 @@ const Stack = createStackNavigator();
 export default AccountNavigator = () => (
   <Stack.Navigator>
     <Stack.Screen name={routes.ACCOUNT} component={AccountScreen} />
-    <Stack.Screen name={routes.MESSAGES} component={MessagesScreen} />
   </Stack.Navigator>
 );

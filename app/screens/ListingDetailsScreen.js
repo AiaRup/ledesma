@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import dayjs from 'dayjs';
 
-import { ListItem, AppText, Screen } from '../components';
+import { ListItem, AppText, Screen, Icon } from '../components';
 import colors from '../config/colors';
 
 export const ListingDetailsScreen = ({ route }) => {
@@ -63,9 +63,16 @@ export const ListingDetailsScreen = ({ route }) => {
         {createdBy && (
           <View style={styles.userContainer}>
             <ListItem
-              image={createdBy.image}
               title={
                 createdBy.name ? `Operdaor: ${createdBy.name}` : 'Not provided'
+              }
+              titleStyle={{ color: colors.medium, fontSize: 15 }}
+              IconComponent={
+                <Icon
+                  name='account'
+                  backgroundColor={colors.medium}
+                  size={25}
+                />
               }
             />
           </View>

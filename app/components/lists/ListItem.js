@@ -13,37 +13,27 @@ export const ListItem = ({
   title,
   subTitle,
   onPress,
-  renderRightActions,
   IconComponent,
-  showChevrons,
+  titleStyle
 }) => {
   return (
-    <Swipeable renderRightActions={renderRightActions}>
-      <TouchableHighlight underlayColor={colors.light} onPress={onPress}>
-        <View style={styles.container}>
-          {IconComponent}
-          {image && <Image style={styles.image} source={image} />}
-          {avatar && <AvatarText text={avatar} />}
-          <View style={styles.detailsContainer}>
-            <AppText style={styles.title} numberOfLines={1}>
-              {title}
+    <TouchableHighlight underlayColor={colors.light} onPress={onPress}>
+      <View style={styles.container}>
+        {IconComponent}
+        {image && <Image style={styles.image} source={image} />}
+        {avatar && <AvatarText text={avatar} />}
+        <View style={styles.detailsContainer}>
+          <AppText style={[styles.title, titleStyle]} numberOfLines={1}>
+            {title}
+          </AppText>
+          {subTitle && (
+            <AppText style={styles.subTitle} numberOfLines={2}>
+              {subTitle}
             </AppText>
-            {subTitle && (
-              <AppText style={styles.subTitle} numberOfLines={2}>
-                {subTitle}
-              </AppText>
-            )}
-          </View>
-          {showChevrons && (
-            <MaterialCommunityIcons
-              name='chevron-right'
-              size={25}
-              color={colors.medium}
-            />
           )}
         </View>
-      </TouchableHighlight>
-    </Swipeable>
+      </View>
+    </TouchableHighlight>
   );
 };
 

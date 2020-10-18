@@ -9,11 +9,12 @@ import {
   SubmitButton,
   Screen,
 } from '../components';
+import { UploadScreen } from './UploadScreen';
 import useLocation from '../hooks/useLocation';
 import farmsApi from '../api/farms';
 import headsApi from '../api/heads';
 import listingsApi from '../api/listings';
-import { UploadScreen } from './UploadScreen';
+import useAuth from '../auth/useAuth';
 import routes from '../navigation/routes';
 
 const validationSchema = Yup.object().shape({
@@ -28,6 +29,7 @@ const validationSchema = Yup.object().shape({
 
 export const ListingEditScreen = ({ navigation }) => {
   const location = useLocation();
+  const { user } = useAuth();
   const [uploadVisible, setUploadVisible] = useState(false);
   const [progress, setProgress] = useState(0);
   const [farms, setFarms] = useState([]);
@@ -97,7 +99,7 @@ export const ListingEditScreen = ({ navigation }) => {
     setUploadVisible(true);
 
     const result = await listingsApi.addListing(
-      { ...listing, location },
+      { ...listing, location, createdBy: user._id },
       (progress) => setProgress(progress)
     );
 

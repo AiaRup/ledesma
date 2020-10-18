@@ -7,7 +7,7 @@ const getListings = (search = '') => client.get(`${endpoint}${search}`);
 const getLatestListing = (headId) => client.get(`${endpoint}?head=${headId}`);
 
 const addListing = (
-  { head, operation, pressurePump, pressureField, flowmeter, location },
+  { head, operation, pressurePump, pressureField, flowmeter, location, createdBy },
   onUploadProgress
 ) => {
   const data = {
@@ -17,6 +17,7 @@ const addListing = (
     pressurePump,
     pressureField,
     location: location,
+    createdBy
   };
 
   return client.post(endpoint, data, {

@@ -77,7 +77,7 @@ export const SearchScreen = ({ navigation }) => {
     setProgress(0);
     setUploadVisible(false);
     if (!result.ok) {
-      return alert('Error al buscar un listing.');
+      return alert('Error al buscar un registro.');
     }
 
     resetForm();
