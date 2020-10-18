@@ -8,16 +8,17 @@ import colors from '../config/colors';
 export const WelcomeScreen = ({ navigation }) => {
   return (
     <ImageBackground
-      blurRadius={10}
+      blurRadius={15}
       style={styles.background}
       source={require('../assets/background.jpg')}
+      resizeMode='cover'
     >
       <View style={styles.logoContainer}>
+        <Text style={styles.tagline}>Ledesma</Text>
         <Image
           style={styles.logo}
           source={require('../assets/logo-blue.png')}
         />
-        <Text style={styles.tagline}>Ledesma</Text>
       </View>
       <View style={styles.buttonsContainer}>
         <AppButton

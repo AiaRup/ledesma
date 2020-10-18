@@ -140,7 +140,7 @@ export const ListingEditScreen = ({ navigation }) => {
             icon='tractor'
             onChange={(value) => {
               setSelectedFarm(value);
-              setSelectedHead(null);
+              setSelectedHead('');
               setOperation({});
             }}
             loading={loading}
@@ -178,7 +178,7 @@ export const ListingEditScreen = ({ navigation }) => {
             placeholder='Caudalímetro'
             icon='water-pump'
             keyboardType='number-pad'
-            disabled={!!selectedHead}
+            disabled={!selectedFarm}
             validate={(value) => {
               if (!value || !latestFlowmeter) {
                 return;
@@ -199,7 +199,7 @@ export const ListingEditScreen = ({ navigation }) => {
                 return `El valor debe estar entre ${operation.pump.min} y ${operation.pump.max}`;
               }
             }}
-            disabled={!!selectedHead}
+            disabled={!selectedHead}
           />
           <AppFormField
             maxLength={255}
@@ -212,7 +212,7 @@ export const ListingEditScreen = ({ navigation }) => {
                 return `El valor debe estar entre ${operation.field.min} y ${operation.field.max}`;
               }
             }}
-            disabled={!!selectedHead}
+            disabled={!selectedHead}
           />
           <SubmitButton title='Enviar Datos' />
         </AppForm>

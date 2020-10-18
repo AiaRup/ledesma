@@ -19,7 +19,7 @@ export const AppTextInput = ({ icon, width = '100%', disabled, ...rest }) => {
       <TextInput
         placeholderTextColor={disabled ? defaultStyles.colors.inputLight : defaultStyles.colors.medium}
         style={defaultStyles.text}
-        editable={disabled}
+        editable={!disabled}
         {...rest}
       />
     </View>
