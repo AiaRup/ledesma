@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import * as Yup from 'yup';
+import LottieView from 'lottie-react-native';
 
 import {
   Screen,
@@ -9,7 +10,6 @@ import {
   AppFormPicker,
   FormDatePicker,
 } from '../components';
-import { UploadScreen } from './UploadScreen';
 import colors from '../config/colors';
 import routes from '../navigation/routes';
 import listingsApi from '../api/listings';
@@ -23,8 +23,6 @@ const validationSchema = Yup.object().shape({
 });
 
 export const SearchScreen = ({ navigation }) => {
-  const [uploadVisible, setUploadVisible] = useState(false);
-  const [progress, setProgress] = useState(0);
   const [farms, setFarms] = useState([]);
   const [heads, setHeads] = useState([]);
   const [, setSelectedHead] = useState(null);
@@ -65,17 +63,13 @@ export const SearchScreen = ({ navigation }) => {
   };
 
   const handleSubmit = async (parameters, { resetForm }) => {
-    setProgress(0);
-    setUploadVisible(true);
+    setLoading(true);
 
     const searchParams = `?head=${parameters.head._id}&updatedAt=${parameters.date}`;
 
-    const result = await listingsApi.getListings(searchParams, (progress) =>
-      setProgress(progress)
-    );
+    const result = await listingsApi.getListings(searchParams);
 
-    setProgress(0);
-    setUploadVisible(false);
+    setLoading(false);
     if (!result.ok) {
       return alert('Error al buscar un registro.');
     }
@@ -87,11 +81,6 @@ export const SearchScreen = ({ navigation }) => {
 
   return (
     <Screen style={styles.screen}>
-      <UploadScreen
-        onDone={() => setUploadVisible(false)}
-        progress={progress}
-        visible={uploadVisible}
-      />
       <AppForm
         initialValues={{
           farm: '',
@@ -126,6 +115,16 @@ export const SearchScreen = ({ navigation }) => {
         <FormDatePicker name='date' placeholder='Fecha' />
         <SubmitButton title='Buscar' />
       </AppForm>
+      {loading && (
+        <View style={styles.animationWrapper}>
+          <LottieView
+            autoPlay
+            loop
+            source={require('../assets/animations/loading.json')}
+            style={styles.animation}
+          />
+        </View>
+      )}
     </Screen>
   );
 };
@@ -134,5 +133,13 @@ const styles = StyleSheet.create({
   screen: {
     padding: 20,
     backgroundColor: colors.white,
+  },
+  animation: {
+    width: 150,
+  },
+  animationWrapper: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    display: 'flex',
   },
 });
