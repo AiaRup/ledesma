@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, Image } from 'react-native';
+import { StyleSheet, Image, View } from 'react-native';
 import * as Yup from 'yup';
+import LottieView from 'lottie-react-native';
 
 import {
   ErrorMessage,
@@ -21,12 +22,15 @@ export const LoginScreen = () => {
   const auth = useAuth();
   const [loginFailed, setLoginFailed] = useState(false);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async ({ password, employee }) => {
+    setLoading(true);
     const result = await authApi.login({
       password,
       employeeCode: employee,
     });
+    setLoading(false);
     if (!result.ok) {
       setLoginFailed(true);
       return setError(result.problem);
@@ -68,6 +72,16 @@ export const LoginScreen = () => {
         />
         <SubmitButton title='Login' />
       </AppForm>
+      {loading && (
+        <View style={styles.animationWrapper}>
+          <LottieView
+            autoPlay
+            loop
+            source={require('../assets/animations/loading.json')}
+            style={styles.animation}
+          />
+        </View>
+      )}
     </Screen>
   );
 };
@@ -82,5 +96,13 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 50,
     marginBottom: 20,
+  },
+  animation: {
+    width: 120,
+  },
+  animationWrapper: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    display: 'flex',
   },
 });

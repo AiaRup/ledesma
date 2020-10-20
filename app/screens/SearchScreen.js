@@ -115,7 +115,7 @@ export const SearchScreen = ({ navigation }) => {
         <FormDatePicker name='date' placeholder='Fecha' />
         <SubmitButton title='Buscar' />
       </AppForm>
-      {loading && (
+      {loading && selectedFarm && (
         <View style={styles.animationWrapper}>
           <LottieView
             autoPlay
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   animation: {
-    width: 150,
+    width: 120,
   },
   animationWrapper: {
     justifyContent: 'center',
