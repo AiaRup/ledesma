@@ -12,6 +12,7 @@ import {
 } from '../components';
 import authApi from '../api/auth';
 import useAuth from '../auth/useAuth';
+import useApi from '../hooks/useApi';
 
 const validationSchema = Yup.object().shape({
   password: Yup.string().required().min(5).label('Password'),
@@ -23,21 +24,22 @@ export const LoginScreen = () => {
   const [loginFailed, setLoginFailed] = useState(false);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const loginApi = useApi(authApi.login);
 
   const handleSubmit = async ({ password, employee }) => {
     setLoading(true);
-    const result = await authApi.login({
+    const { data: result, error } = await loginApi.request({
       password,
       employeeCode: employee,
-    });
+    })
     setLoading(false);
-    if (!result.ok) {
+    if (error) {
       setLoginFailed(true);
-      return setError(result.problem);
+      return setError(error);
     }
     setLoginFailed(false);
     setError(null);
-    auth.logIn(result.data);
+    auth.logIn(result);
   };
 
   return (
