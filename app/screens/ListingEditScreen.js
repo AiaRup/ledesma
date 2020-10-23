@@ -14,6 +14,7 @@ import useLocation from '../hooks/useLocation';
 import farmsApi from '../api/farms';
 import headsApi from '../api/heads';
 import listingsApi from '../api/listings';
+import useApi from '../hooks/useApi';
 import useAuth from '../auth/useAuth';
 import routes from '../navigation/routes';
 
@@ -39,10 +40,12 @@ export const ListingEditScreen = ({ navigation }) => {
   const [selectedFarm, setSelectedFarm] = useState(null);
   const [loading, setLoading] = useState(false);
   const [latestFlowmeter, setLatestFlowmeter] = useState(null);
+  const farmApi = useApi(farmsApi.getFarms);
+
 
   const getFarmsList = async () => {
-    const farmsResult = await farmsApi.getFarms();
-    setFarms(farmsResult?.data?.docs || []);
+    const { data,  error } = await farmApi.request();
+    setFarms(data?.docs || []);
   };
 
   const getHeadsList = async () => {
