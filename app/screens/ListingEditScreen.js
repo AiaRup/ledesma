@@ -30,7 +30,7 @@ const validationSchema = Yup.object().shape({
 
 export const ListingEditScreen = ({ navigation }) => {
   const location = useLocation();
-  const { user } = useAuth();
+  const { user, logOut } = useAuth();
   const [uploadVisible, setUploadVisible] = useState(false);
   const [progress, setProgress] = useState(0);
   const [farms, setFarms] = useState([]);
@@ -44,7 +44,10 @@ export const ListingEditScreen = ({ navigation }) => {
 
 
   const getFarmsList = async () => {
-    const { data,  error } = await farmApi.request();
+    const { data, status } = await farmApi.request();
+    if (status === 400) {
+      return logOut();
+    }
     setFarms(data?.docs || []);
   };
 
