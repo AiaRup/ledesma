@@ -22,6 +22,8 @@ export const AccountScreen = ({ navigation }) => {
   const { user, logOut } = useAuth();
   const [uploadVisible, setUploadVisible] = useState(false);
   const [progress, setProgress] = useState(0);
+  const listingApi = useApi(listingsApi.getListings);
+
 
   const onMyListingsSearch = async () => {
     setProgress(0);
@@ -29,16 +31,13 @@ export const AccountScreen = ({ navigation }) => {
 
     const searchParams = `?createdBy=${user._id}`;
 
-    const result = await listingsApi.getListings(searchParams, (progress) =>
-      setProgress(progress)
-    );
-
-    setUploadVisible(false);
-    if (!result.ok) {
-      return alert('Error al buscar mis registors.');
+    const { data: result, status } = await listingApi.request(searchParams)
+    if (status === 400) {
+      return logOut();
     }
 
-    navigation.navigate(routes.LISTING, result.data?.docs);
+    setUploadVisible(false);
+    navigation.navigate(routes.LISTING, result?.docs);
   };
 
   return (

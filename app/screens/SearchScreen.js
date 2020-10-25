@@ -15,6 +15,7 @@ import routes from '../navigation/routes';
 import listingsApi from '../api/listings';
 import farmsApi from '../api/farms';
 import headsApi from '../api/heads';
+import useApi from '../hooks/useApi';
 
 const validationSchema = Yup.object().shape({
   farm: Yup.string().required('Campo Requerido.'),
@@ -28,10 +29,15 @@ export const SearchScreen = ({ navigation }) => {
   const [, setSelectedHead] = useState(null);
   const [selectedFarm, setSelectedFarm] = useState(null);
   const [loading, setLoading] = useState(false);
+  const farmApi = useApi(farmsApi.getFarms);
+
 
   const getFarmsList = async () => {
-    const farmsResult = await farmsApi.getFarms();
-    setFarms(farmsResult?.data?.docs || []);
+    const { data: farmsResult, status } = await farmApi.request();
+    if (status === 400) {
+      return logOut();
+    }
+    setFarms(farmsResult?.docs || []);
   };
 
   const getHeadsList = async () => {
