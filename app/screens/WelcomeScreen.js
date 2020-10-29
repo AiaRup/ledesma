@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     padding: 20,
     width: '100%',
+    marginBottom: 50
   },
   logo: {
     height: 100,

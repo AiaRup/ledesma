@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import * as Yup from 'yup';
 import LottieView from 'lottie-react-native';
+import { useIsFocused } from '@react-navigation/native';
 
 import {
   Screen,
@@ -30,7 +31,7 @@ export const SearchScreen = ({ navigation }) => {
   const [selectedFarm, setSelectedFarm] = useState(null);
   const [loading, setLoading] = useState(false);
   const farmApi = useApi(farmsApi.getFarms);
-
+  const isFocused = useIsFocused();
 
   const getFarmsList = async () => {
     const { data: farmsResult, status } = await farmApi.request();
@@ -53,12 +54,10 @@ export const SearchScreen = ({ navigation }) => {
   }
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
       getData();
-    });
+      resetState();
 
-    return unsubscribe;
-  }, [navigation]);
+  }, [isFocused]);
 
   const resetState = () => {
     setLoading(false);
