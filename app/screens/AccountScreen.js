@@ -76,7 +76,7 @@ export const AccountScreen = ({ navigation }) => {
       </View>
       <ListItem
         title='Salir'
-        IconComponent={<Icon name='logout' backgroundColor='#ffe66d' />}
+        IconComponent={<Icon name='logout' backgroundColor={colors.yellow} />}
         onPress={() => logOut()}
       />
     </Screen>

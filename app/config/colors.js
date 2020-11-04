@@ -9,4 +9,5 @@ export default {
   primary: '#02062f',
   secondary: '#2D82B7',
   white: '#fff',
+  yellow: '#ffe66d'
 }
