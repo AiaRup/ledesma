@@ -16,14 +16,16 @@ export default AppNavigator = () => {
 
   return (
     <Tab.Navigator
-      tabBarOptions={{
-        showLabel: false,
+      screenOptions={{
+        tabBarShowLabel: false,
       }}
+      unmountOnBlur={false}
     >
       <Tab.Screen
         name={routes.SEARCH}
         component={FeedNavigator}
         options={{
+          headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name='magnify' color={color} size={size} />
           ),
@@ -44,8 +46,13 @@ export default AppNavigator = () => {
         name={routes.ACCOUNT}
         component={AccountNavigator}
         options={{
+          headerShown: false,
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name='settings' color={color} size={size} />
+            <MaterialCommunityIcons
+              name='account-settings-outline'
+              color={color}
+              size={size}
+            />
           ),
         }}
       />

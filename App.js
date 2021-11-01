@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { AppLoading } from 'expo';
+import AppLoading from 'expo-app-loading';
 import { I18nManager } from 'react-native';
 
 import navigationTheme from './app/navigation/navigationTheme';

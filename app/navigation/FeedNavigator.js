@@ -7,7 +7,7 @@ import routes from './routes';
 const Stack = createStackNavigator();
 
 export default FeedNavigator = () => (
-  <Stack.Navigator mode='modal'>
+  <Stack.Navigator screenOptions={{ presentation: 'modal' }}>
     <Stack.Screen name={routes.SEARCH} component={SearchScreen} />
     <Stack.Screen name={routes.LISTING} component={ListingsScreen} />
     <Stack.Screen

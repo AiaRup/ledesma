@@ -19,8 +19,8 @@ import useAuth from '../auth/useAuth';
 import routes from '../navigation/routes';
 
 const validationSchema = Yup.object().shape({
-  farm: Yup.string().required('Campo Requerido.'),
-  head: Yup.string().required('Campo Requerido.'),
+  farm: Yup.object().required('Campo Requerido.'),
+  head: Yup.object().required('Campo Requerido.'),
   flowmeter: Yup.number()
     .typeError('Caudalímetro tiene que ser un numero.')
     .required('Campo Requerido.'),
@@ -41,7 +41,6 @@ export const ListingEditScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [latestFlowmeter, setLatestFlowmeter] = useState(null);
   const farmApi = useApi(farmsApi.getFarms);
-
 
   const getFarmsList = async () => {
     const { data, status } = await farmApi.request();

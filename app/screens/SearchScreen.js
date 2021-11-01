@@ -19,8 +19,8 @@ import headsApi from '../api/heads';
 import useApi from '../hooks/useApi';
 
 const validationSchema = Yup.object().shape({
-  farm: Yup.string().required('Campo Requerido.'),
-  head: Yup.string().required('Campo Requerido.'),
+  farm: Yup.object().required('Campo Requerido.'),
+  head: Yup.object().required('Campo Requerido.'),
   date: Yup.string().required('Campo Requerido.'),
 });
 
@@ -54,9 +54,8 @@ export const SearchScreen = ({ navigation }) => {
   }
 
   useEffect(() => {
-      getData();
-      resetState();
-
+    getData();
+    resetState();
   }, [isFocused]);
 
   const resetState = () => {
