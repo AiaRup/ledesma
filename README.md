@@ -68,6 +68,8 @@
 - Control of the different operations who carry out the employees
 - Send a summary of the data to the irrigation operation manager
 
+The app uses an [API](https://github.com/AiaRup/ledesma-api) that I built specifically for this project.
+
 ```
 The app asks the user for permissions to use the location, media and notifications.
 ```
