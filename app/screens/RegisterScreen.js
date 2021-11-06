@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as Yup from 'yup';
 import { StyleSheet } from 'react-native';
 
@@ -10,11 +10,13 @@ import {
   ErrorMessage,
   ActivityIndicator,
 } from '../components';
-import userApi from '../api/users';
-import useAuth from '../auth/useAuth';
-import authApi from '../api/auth';
-import useApi from '../hooks/useApi';
-import logger from '../utility/logger';
+// import userApi from '../api/users';
+// import useAuth from '../auth/useAuth';
+// import authApi from '../api/auth';
+// import useApi from '../hooks/useApi';
+// import logger from '../utility/logger';
+import { useAuth } from '../providers/AuthProvider';
+import routes from '../navigation/routes';
 
 const validationSchema = Yup.object().shape({
   adminPassword: Yup.string().required().min(5).label('AdminPassword'),
@@ -22,37 +24,52 @@ const validationSchema = Yup.object().shape({
   employee: Yup.string().matches(/^\d+$/).required().label('Employee'),
 });
 
-export const RegisterScreen = () => {
-  const registerApi = useApi(userApi.register);
-  const loginApi = useApi(authApi.login);
-  const auth = useAuth();
+export const RegisterScreen = ({ navigation }) => {
+  // const registerApi = useApi(userApi.register);
+  // const loginApi = useApi(authApi.login);
+  // const auth = useAuth();
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
+  const { user, signUp, signIn } = useAuth();
 
-  const handleSubmit = async (userInfo) => {
-    const result = await registerApi.request({
-      ...userInfo,
-      employeeCode: userInfo.employee,
-    });
-
-    if (!result.ok) {
-      if (result.data) setError(result.data.error);
-      else {
-        setError('An unexpected error occurred.');
-        logger.log(result);
-      }
-      return;
+  useEffect(() => {
+    // If there is a user logged in, go to the Projects page.
+    if (user != null) {
+      navigation.navigate(routes.SEARCH);
     }
+  }, [user]);
 
-    const { data: authToken } = await loginApi.request({
-      password: userInfo.password,
-      employeeCode: userInfo.employee,
-    });
-    auth.logIn(authToken);
+  const handleSubmit = async ({ password, employee }) => {
+    // const result = await registerApi.request({
+    //   ...userInfo,
+    //   employeeCode: userInfo.employee,
+    // });
+    // if (!result.ok) {
+    //   if (result.data) setError(result.data.error);
+    //   else {
+    //     setError('An unexpected error occurred.');
+    //     logger.log(result);
+    //   }
+    //   return;
+    // }
+    // const { data: authToken } = await loginApi.request({
+    //   password: userInfo.password,
+    //   employeeCode: userInfo.employee,
+    // });
+    // auth.logIn(authToken);
+    setLoading(true);
+    try {
+      await signUp(employee, password);
+      signIn(employee, password);
+    } catch (error) {
+      setError(error.message);
+    }
+    setLoading(false);
   };
 
   return (
     <>
-      <ActivityIndicator visible={registerApi.loading || loginApi.loading} />
+      <ActivityIndicator visible={loading} />
       <Screen style={styles.container}>
         <AppForm
           initialValues={{ adminPassword: '', employee: '', password: '' }}

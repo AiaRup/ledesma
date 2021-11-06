@@ -18,11 +18,11 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.aiarupsom.donewithit",
+      "bundleIdentifier": "com.aiarupsom.ledesma",
       "buildNumber": "1.0.0"
     },
     "android": {
-      "package": "com.aiarupsom.donewithit",
+      "package": "com.aiarupsom.ledesma",
       "versionCode": 1
     },
     "description": "An app to register farms data from the fields.",

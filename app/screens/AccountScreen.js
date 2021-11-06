@@ -5,8 +5,10 @@ import { ListItem, Screen, Icon, ListItemSeperator } from '../components';
 import { UploadScreen } from './UploadScreen';
 import colors from '../config/colors';
 import routes from '../navigation/routes';
-import useAuth from '../auth/useAuth';
+// import useAuth from '../auth/useAuth';
 import listingsApi from '../api/listings';
+import { useAuth } from '../providers/AuthProvider';
+import logger from '../utility/logger';
 
 const menuItems = [
   {
@@ -19,11 +21,10 @@ const menuItems = [
 ];
 
 export const AccountScreen = ({ navigation }) => {
-  const { user, logOut } = useAuth();
+  const { user, signOut } = useAuth();
   const [uploadVisible, setUploadVisible] = useState(false);
   const [progress, setProgress] = useState(0);
   const listingApi = useApi(listingsApi.getListings);
-
 
   const onMyListingsSearch = async () => {
     setProgress(0);
@@ -31,14 +32,16 @@ export const AccountScreen = ({ navigation }) => {
 
     const searchParams = `?createdBy=${user._id}`;
 
-    const { data: result, status } = await listingApi.request(searchParams)
+    const { data: result, status } = await listingApi.request(searchParams);
     if (status === 400) {
-      return logOut();
+      return signOut();
     }
 
     setUploadVisible(false);
     navigation.navigate(routes.LISTING, result?.docs);
   };
+
+  console.log('=============', user);
 
   return (
     <Screen style={styles.screen}>
@@ -72,12 +75,12 @@ export const AccountScreen = ({ navigation }) => {
               onPress={onMyListingsSearch}
             />
           )}
-        ></FlatList>
+        />
       </View>
       <ListItem
         title='Salir'
         IconComponent={<Icon name='logout' backgroundColor={colors.yellow} />}
-        onPress={() => logOut()}
+        onPress={() => signOut()}
       />
     </Screen>
   );

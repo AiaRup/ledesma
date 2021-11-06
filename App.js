@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
 import AppLoading from 'expo-app-loading';
 import { I18nManager } from 'react-native';
 
-import navigationTheme from './app/navigation/navigationTheme';
-import AppNavigator from './app/navigation/AppNavigator';
 import { OfflineNotice } from './app/components';
-import AuthNavigator from './app/navigation/AuthNavigator';
-import AuthContext from './app/auth/context';
-import authStorage from './app/auth/storage';
-import { navigationRef } from './app/navigation/RootNavigation';
+import { AppContext } from './app/contexts/AppContext';
+// import authStorage from './app/auth/storage';
 import logger from './app/utility/logger';
+import { AuthProvider } from './app/providers/AuthProvider';
+import RootNavigator from './app/navigation/RootNavigator';
 
 logger.start();
 
@@ -21,27 +18,32 @@ export default function App() {
   const [user, setUser] = useState(null);
   const [isReady, setIsReady] = useState(false);
 
-  useEffect(() => {
-    const restoreUser = async () => {
-      const user = await authStorage.getUser();
-      if (user) setUser(user);
-      setIsReady(true);
-    };
-    restoreUser();
-  }, []);
+  // useEffect(() => {
+  //   const restoreUser = async () => {
+  //     const user = await authStorage.getUser();
+  //     if (user) {
+  //       setUser(user);
+  //     }
+  //     setIsReady(true);
+  //   };
+  //   restoreUser();
+  // }, []);
 
   return (
     <>
-      {!isReady ? (
+      {/* {!isReady ? (
         <AppLoading onError={() => logger.log('Error on app loading')} />
-      ) : (
-        <AuthContext.Provider value={{ user, setUser }}>
+      ) : ( */}
+      <AppContext.Provider value={{ user, setUser }}>
+        <AuthProvider>
           <OfflineNotice />
-          <NavigationContainer ref={navigationRef} theme={navigationTheme}>
-            {user ? <AppNavigator /> : <AuthNavigator />}
-          </NavigationContainer>
-        </AuthContext.Provider>
-      )}
+          {/* <NavigationContainer ref={navigationRef} theme={navigationTheme}>
+              {user ? <AppNavigator /> : <AuthNavigator />}
+            </NavigationContainer> */}
+          <RootNavigator />
+        </AuthProvider>
+      </AppContext.Provider>
+      {/* )} */}
     </>
   );
 }

@@ -4,6 +4,7 @@ import jwtDecode from 'jwt-decode';
 import logger from '../utility/logger';
 
 const key = 'authToken';
+const userKey = 'user';
 
 const storeToken = async (authToken) => {
   try {
@@ -26,6 +27,30 @@ const getUser = async () => {
   return token ? jwtDecode(token) : null;
 };
 
+const getStoredUser = async () => {
+  try {
+    return await SecureStore.getItemAsync(userKey);
+  } catch (error) {
+    logger.log('Error getting user from storage', error);
+  }
+};
+
+const setUserInStorage = async (user) => {
+  try {
+    await SecureStore.setItemAsync(userKey, user);
+  } catch (error) {
+    logger.log('Error storing user', error);
+  }
+};
+
+const removeUser = async () => {
+  try {
+    await SecureStore.deleteItemAsync(userKey);
+  } catch (error) {
+    logger.log('Error removing user from storage', error);
+  }
+};
+
 const removeToken = async () => {
   try {
     await SecureStore.deleteItemAsync(key);
@@ -39,4 +64,7 @@ export default {
   storeToken,
   removeToken,
   getToken,
+  setUserInStorage,
+  getStoredUser,
+  removeUser,
 };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Image, View } from 'react-native';
 import * as Yup from 'yup';
 import LottieView from 'lottie-react-native';
@@ -10,36 +10,48 @@ import {
   AppFormField,
   SubmitButton,
 } from '../components';
-import authApi from '../api/auth';
-import useAuth from '../auth/useAuth';
-import useApi from '../hooks/useApi';
+// import authApi from '../api/auth';
+// import useAuth from '../auth/useAuth';
+// import useApi from '../hooks/useApi';
+import { useAuth } from '../providers/AuthProvider';
+import routes from '../navigation/routes';
 
 const validationSchema = Yup.object().shape({
   password: Yup.string().required().min(5).label('Password'),
   employee: Yup.string().matches(/^\d+$/).required().label('Employee'),
 });
 
-export const LoginScreen = () => {
-  const auth = useAuth();
+export const LoginScreen = ({ navigation }) => {
+  // const auth = useAuth();
   const [loginFailed, setLoginFailed] = useState(false);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const loginApi = useApi(authApi.login);
+  // const loginApi = useApi(authApi.login);
+  const { user, signIn } = useAuth();
+
+  useEffect(() => {
+    // If there is a user logged in, go to the Projects page.
+    if (user != null) {
+      navigation.navigate(routes.SEARCH);
+    }
+  }, [user]);
 
   const handleSubmit = async ({ password, employee }) => {
     setLoading(true);
-    const { data: result, error } = await loginApi.request({
-      password,
-      employeeCode: employee,
-    })
-    setLoading(false);
-    if (error) {
+    // const { data: result, error } = await loginApi.request({
+    //   password,
+    //   employeeCode: employee,
+    // });
+    try {
+      await signIn(employee, password);
+      setLoading(false);
+      setError(null);
+    } catch (error) {
       setLoginFailed(true);
-      return setError(error);
+      setError(error.message);
     }
-    setLoginFailed(false);
-    setError(null);
-    auth.logIn(result);
+    setLoading(false);
+    // auth.logIn(result);
   };
 
   return (
