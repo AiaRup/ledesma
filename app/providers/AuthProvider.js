@@ -3,7 +3,7 @@ import Realm from 'realm';
 
 import app from '../../realmApp';
 import authStorage from '../auth/storage';
-import { farmSchema, headSchema, userSchema } from '../schemas';
+import { Farm, Head, User, Listing } from '../schemas';
 
 // Create a new Context object that will be provided to descendants of
 // the AuthProvider.
@@ -19,31 +19,27 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     if (!user) {
-      console.log('========== inside return no user');
       return;
     }
 
     // The current user always has their own project, so we don't need
     // to wait for the user object to load before displaying that project.
-    const myProject = { name: 'My Project', partition: `project=${user.id}` };
+    const myProject = { name: 'ledesma', partition: `project=ledesma` };
     setProjectData([myProject]);
 
     const config = {
+      schema: [User.schema, Farm.schema, Listing.schema, Head.schema],
       sync: {
         user,
         partitionValue: `user=${user.id}`,
-        schema: [userSchema, farmSchema, userSchema, headSchema],
       },
     };
 
     // Open a realm with the logged in user's partition value in order
     // to get the projects that the logged in user is a member of
     Realm.open(config).then((userRealm) => {
-      console.log('====================================');
-      console.log(' userRealm', userRealm);
-      console.log('====================================');
       realmRef.current = userRealm;
-      const users = userRealm.objects('users');
+      const users = userRealm.objects('User');
 
       users.addListener(() => {
         // The user custom data object may not have been loaded on
@@ -59,7 +55,6 @@ const AuthProvider = ({ children }) => {
 
     return () => {
       // cleanup function
-      console.log('============ inside close');
       const userRealm = realmRef.current;
       if (userRealm) {
         userRealm.close();
@@ -74,12 +69,12 @@ const AuthProvider = ({ children }) => {
   const signIn = async (email, password) => {
     const creds = Realm.Credentials.emailPassword(email, password);
     const newUser = await app.logIn(creds);
-    console.log('====================================');
-    console.log('creds', creds);
-    console.log('newUser', newUser);
-    console.log('====================================');
-    await authStorage.setUserInStorage(newUser);
-    setUser(newUser);
+    const _currentUser = app?.currentUser;
+    console.log('=========', { app, user, _currentUser });
+    if (newUser?.name) {
+      await authStorage.setUserInStorage(newUser);
+      setUser(newUser);
+    }
   };
 
   // The signUp function takes an email and password and uses the

@@ -1,4 +1,4 @@
-export { farmSchema } from './farms';
-export { headSchema } from './heads';
-export { listingSchema } from './listings';
-export { userSchema } from './users';
+export { Farm } from './Farm';
+export { User } from './User';
+export { Head } from './Head';
+export { Listing } from './Listing';
